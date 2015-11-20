@@ -26,6 +26,14 @@ public class Creature {
 	}
 	
 	/**
+	 * Charge la creature depuis un fichier
+	 * @param nom nom de la creature
+	 */
+	public Creature(String nom){
+		
+	}
+	
+	/**
 	 * Donne les pv restant
 	 * @return le nombre de pv restant
 	 */
@@ -54,7 +62,6 @@ public class Creature {
 	 * @return true si elle est un guardien
 	 */
 	public boolean isGuardian(){
-
 		return this.guardian;
 	}
 	

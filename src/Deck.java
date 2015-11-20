@@ -20,6 +20,15 @@ public class Deck {
 		this.nmax = n;
 	}
 	
+	/**
+	 * Charge un deck depuis un fichier
+	 * @param n nombre max de cartes dans le deck
+	 * @param file fichier de deck à charger
+	 */
+	public Deck(int n, String file){
+		
+	}
+	
 	/**	Indique si le deck est vide
 	 * 	@return true si le deck est vide
 	 */
@@ -68,5 +77,14 @@ public class Deck {
 		this.deck.remove(it);
 		
 		return c;
+	}
+	
+	/**
+	 * Donne le nombre de fois que la carte apparait dans le deck
+	 * @param c carte
+	 * @return nombre d'occurences de la carte
+	 */
+	public int occurInDeck(Carte c){
+		return 0;
 	}
 }
