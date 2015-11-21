@@ -7,7 +7,8 @@ public class Creature {
 	private int damage;				//attaque
 	
 	private boolean guardian;		//indique s'il est un guardien
-	// private boolean [others]
+	
+	private String name;
 	
 	/**
 	 * Contructeur basique
@@ -15,8 +16,9 @@ public class Creature {
 	 * @param damage : attaque initiale
 	 * @param guardian : guardien?
 	 */
-	public Creature(int life, int damage, boolean guardian){
+	public Creature(String name, int life, int damage, boolean guardian){
 		this.life = life;
+		this.name = name;
 		
 		if(damage < 0)
 			this.damage = 0;
@@ -31,7 +33,17 @@ public class Creature {
 	 * @param nom nom de la creature
 	 */
 	public Creature(String nom){
+		String [] lines = FileReader.loadFile(FileReader.FOLD_CREA, nom);
 		
+		try{
+			this.name = lines[0];
+			this.damage = Integer.parseInt(lines[1]);
+			this.life = Integer.parseInt(lines[2]);
+			
+			this.guardian = lines[3].charAt(0) == '1';
+		}catch(Exception e){
+			System.out.println("File error");
+		}
 	}
 	
 	/**

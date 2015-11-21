@@ -38,7 +38,13 @@ public class Carte {
 	 * @param name nom de la carte
 	 */
 	public Carte(String name){
+		String [] lines = FileReader.loadFile(FileReader.FOLD_CART, name);
 		
+		try{
+			//TODO
+		}catch(Exception e){
+			
+		}
 	}
 	
 	public void play(){
