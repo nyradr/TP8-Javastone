@@ -1,0 +1,31 @@
+javastone
+	- javastone.jar
+	- crea
+		- un fichier par creature
+			- Nom du fichier : nom de la creature.crea
+			
+			Nom			(str)
+			atk			(int+)
+			vie			(int+)
+			guardien 	(0/1)
+	
+	- carte
+		- un fichier par create
+			- Nom du fichier : nom de la carte.carte
+			
+			Nom			(str)
+			descr		(str)
+			eff			(str, metacode)
+			mana		(int+)
+			max			(int+)
+			
+			
+	- deck
+		- un ficheir par deck
+			- Nom du fichier : nom du deck.deck
+			
+			Nom carte1
+				...
+			Nom carteN
+			
+			
