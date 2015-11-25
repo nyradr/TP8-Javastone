@@ -1,4 +1,4 @@
-package base;
+
 
 /**	Représente une créature
  */

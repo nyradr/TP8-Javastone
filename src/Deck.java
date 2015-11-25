@@ -1,4 +1,4 @@
-package base;
+
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.Random;
@@ -74,8 +74,10 @@ public class Deck {
 	 */
 	public Carte pioche(){
 		int it = this.deck.size() -1;
-		Carte c = this.deck.get(it);
-		this.deck.remove(it);
+		Carte c = null;
+		
+		if(it >= 0)
+			c = this.deck.remove(it);
 		
 		return c;
 	}
