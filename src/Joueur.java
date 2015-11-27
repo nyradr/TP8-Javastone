@@ -30,8 +30,20 @@ public class Joueur {
 		
 		this.mainmax = 10;
 		
-		this.mana = 1;
+		this.mana = 0;
 		this.manamax = 10;
+	}
+	
+	public int getLife(){
+		return this.plateau.get(0).getLife();
+	}
+	
+	public int getMana(){
+		return this.mana;
+	}
+	
+	public int getManaMax(){
+		return this.mainmax;
 	}
 	
 	/**

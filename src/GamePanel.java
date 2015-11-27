@@ -11,6 +11,9 @@ public class GamePanel {
 	Scanner scan;
 	
 	public GamePanel(){
+		this.joueur1 = new Joueur();
+		this.joueur2 = new Joueur();
+		
 		this.scan = new Scanner(System.in);
 	}
 	
@@ -59,23 +62,45 @@ public class GamePanel {
 	}
 	
 	private void playerTurn(Joueur player){
+		player.newTurn();
 		
+		System.out.println("Debut de votre tour");
+		System.out.println("Il vous reste " + player.getLife() + " pv");
+		
+		String s_mana = "";
+		int m = 0;
+		while(m < player.getManaMax()){
+			if(m < player.getMana())
+				s_mana += "X";
+			else
+				s_mana += "_";
+			m++;
+		}
+		System.out.println("Mana [" + s_mana + "]");
+		
+		
+		
+	
 	}
 	
 	private void initPlayer(Joueur player){
-		player = new Joueur();
+		System.out.println("Initialisation :");
 		
-		
+		if (menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
+			System.out.println("depuis un deck");
+		}else{
+			System.out.println("manuelle");
+		}
 	}
 	
 	public void startGame(){
 		initPlayer(this.joueur1);
-		initPlayer(this.joueur2);
+		//initPlayer(this.joueur2);
 		
-		while(!this.joueur1.isDead() && !this.joueur2.isDead()){
+		//while(!this.joueur1.isDead() && !this.joueur2.isDead()){
 			playerTurn(this.joueur1);
-			playerTurn(this.joueur2);
-		}
+			//playerTurn(this.joueur2);
+		//}
 	}
 	
 	
