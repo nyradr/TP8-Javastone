@@ -26,11 +26,12 @@ public class Carte {
 	 * @param decr description de la carte
 	 * @param effect effet de la carte
 	 */
-	public Carte(int type, int manaCost, String name, String decr, String effect){
+	public Carte(int type, int manaCost, String name, String descr, String effect){
 		this.type = type;
 		this.manaCost = manaCost;
 		this.name = name;
 		this.effect = effect;
+		this.descr = descr;
 	}
 	
 	/**
