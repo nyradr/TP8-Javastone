@@ -61,11 +61,8 @@ public class GamePanel {
 		return val;
 	}
 	
-	private void playerTurn(Joueur player){
-		player.newTurn();
-		
-		System.out.println("Debut de votre tour");
-		System.out.println("Il vous reste " + player.getLife() + " pv");
+	private void drawPlayer(Joueur player){
+		System.out.println("Points de vie " + player.getLife() + " pv");
 		
 		String s_mana = "";
 		int m = 0;
@@ -78,9 +75,47 @@ public class GamePanel {
 		}
 		System.out.println("Mana [" + s_mana + "]");
 		
+		System.out.println("Main :");
+		for(Carte c : player.getMain())
+			System.out.println("\t" + c.toString());
 		
-		
+		System.out.println("Terrain :");
+		for(int i = 1; i < player.getPlateau().size(); i++)
+			System.out.println(player.getPlateau().get(i).toString());
+	}
 	
+	private Joueur getAdversaire(Joueur player){
+		if(player == this.joueur1)
+			return joueur2;
+		return joueur1;
+	}
+	
+	private void playerTurn(Joueur player){
+		player.newTurn();
+		
+		System.out.println("Debut de votre tour...");
+		
+		//Adversaire
+		System.out.println("Adversaire:");
+		drawPlayer(getAdversaire(player));
+		
+		//Joueur:
+		System.out.println("Vous:");
+		drawPlayer(player);
+		
+		switch (menu("Que voullez vous faire", new String[]{"Jouer une carte", "Attaquer avec une creature", "Rien faire"})) {
+		case 0:
+			//TODO : jouer une carte
+			break;
+
+		case 1:
+			//TODO : Attaquer 
+			break;
+			
+		default:
+			System.out.println("Vous n'avez rien fait");
+			break;
+		}
 	}
 	
 	private void initPlayer(Joueur player){
@@ -94,7 +129,7 @@ public class GamePanel {
 	}
 	
 	public void startGame(){
-		initPlayer(this.joueur1);
+		//initPlayer(this.joueur1);
 		//initPlayer(this.joueur2);
 		
 		//while(!this.joueur1.isDead() && !this.joueur2.isDead()){

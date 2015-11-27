@@ -102,5 +102,7 @@ public class Creature {
 		this.damage += buffDamage;
 	}
 	
-	
+	public String toString(){
+		return this.name + "," + this.damage + "/" + this.life;
+	}
 }

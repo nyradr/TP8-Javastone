@@ -67,4 +67,10 @@ public class Carte {
 	public int getMax(){
 		return this.maxelem;
 	}
+	
+	public String toString(){
+		String str = "[" + this.manaCost + "] ";
+		str += this.name + " : " + this.descr;
+		return str;
+	}
 }

@@ -51,8 +51,10 @@ public class FileReader {
 			while((line = br.readLine()) != null){
 				lines.add(line);
 			}
-			return toArray(lines);
 			
+			br.close();
+			
+			return toArray(lines);			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
