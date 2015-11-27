@@ -1,6 +1,7 @@
 
 
 /**	Représente une créature
+ * 	DONE
  */
 public class Creature {
 	private int life;				//point de vie restant
@@ -46,7 +47,11 @@ public class Creature {
 		}
 	}
 	
-	/**
+	public String name(){
+		return this.name;
+	}
+	
+	/**œœ
 	 * Donne les pv restant
 	 * @return le nombre de pv restant
 	 */
