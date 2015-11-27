@@ -42,13 +42,29 @@ public class Carte {
 		String [] lines = FileReader.loadFile(FileReader.FOLD_CART, name);
 		
 		try{
-			//TODO
+			this.name = lines[0];
+			this.descr = lines[1];
+			this.effect = lines[2];
+			this.manaCost = Integer.parseInt(lines[3]);
+			this.maxelem = Integer.parseInt(lines[4]);
 		}catch(Exception e){
 			
 		}
 	}
 	
-	public void play(){
-		
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getDescr(){
+		return this.descr;
+	}
+	
+	public int getMane(){
+		return this.manaCost;
+	}
+	
+	public int getMax(){
+		return this.maxelem;
 	}
 }

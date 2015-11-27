@@ -49,7 +49,7 @@ public class Deck {
 	 * 	@param c	: carte à ajouter
 	 */
 	public void addCard(Carte c){
-		if(this.deck.size() < this.nmax)
+		if(this.deck.size() < this.nmax && occurInDeck(c) < c.getMax())
 			this.deck.add(c);
 	}
 	
@@ -87,7 +87,14 @@ public class Deck {
 	 * @param c carte
 	 * @return nombre d'occurences de la carte
 	 */
-	public int occurInDeck(Carte c){
-		return 0;
+	public int occurInDeck(Carte crt){
+		int occ = 0;
+		
+		for(Carte c : this.deck){
+			if(c.getName().equals(crt.getName()))
+				occ++;
+		}
+		
+		return occ;
 	}
 }

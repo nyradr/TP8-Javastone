@@ -60,5 +60,14 @@ public class GamePanel {
 		
 		return val;
 	}
-
+	
+	private void playerTurn(Joueur player){
+		
+	}
+	
+	public void startGame(){
+		
+	}
+	
+	
 }
