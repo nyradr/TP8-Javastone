@@ -29,3 +29,18 @@ javastone
 			Nom carteN
 			
 			
+Effects:
+	TYPE	(int : 0, 1, 2, 3)
+	QUI		(int : 0(tous), 1(joueur), 2(adversaire))
+	ARGS:
+		INVOKE :
+			Nom creature	(str)
+		BUFF :
+			life			(int)
+			dmg				(int)
+			
+		DAMAGE:
+			dmg				(int)
+			
+		DECK:
+			nbr				(int)

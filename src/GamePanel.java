@@ -11,9 +11,6 @@ public class GamePanel {
 	Scanner scan;
 	
 	public GamePanel(){
-		this.joueur1 = new Joueur();
-		this.joueur2 = new Joueur();
-	
 		this.scan = new Scanner(System.in);
 	}
 	
@@ -65,8 +62,20 @@ public class GamePanel {
 		
 	}
 	
-	public void startGame(){
+	private void initPlayer(Joueur player){
+		player = new Joueur();
 		
+		
+	}
+	
+	public void startGame(){
+		initPlayer(this.joueur1);
+		initPlayer(this.joueur2);
+		
+		while(!this.joueur1.isDead() && !this.joueur2.isDead()){
+			playerTurn(this.joueur1);
+			playerTurn(this.joueur2);
+		}
 	}
 	
 	
