@@ -1,9 +1,13 @@
+import java.util.List;
 
 public class main {
 	public static void main(String [] a)
 	{
-		Creature crea = new Creature("crea");
+		List<Engine> engs = Engine.extractEffects("0 1 2; 0 2 2");
 		
-		System.out.println(crea.toString());
+		System.out.println(engs.size());
+		
+		for(Engine e : engs)
+			System.out.println(e.toString());
 	}
 }

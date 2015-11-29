@@ -7,12 +7,14 @@ public class GamePanel {
 	private Joueur joueur2;
 	
 	Scanner scan;
+	DrawingPanel draw;
 	
 	public GamePanel(){
 		this.joueur1 = new Joueur();
 		this.joueur2 = new Joueur();
 		
 		this.scan = new Scanner(System.in);
+		this.draw = new DrawingPanel();
 	}
 	
 	/**
@@ -59,37 +61,118 @@ public class GamePanel {
 		return val;
 	}
 	
-	private void drawPlayer(Joueur player){
-		System.out.println("Points de vie " + player.getLife() + " pv");
-		
-		String s_mana = "";
-		int m = 0;
-		while(m < player.getManaMax()){
-			if(m < player.getMana())
-				s_mana += "X";
-			else
-				s_mana += "_";
-			m++;
-		}
-		System.out.println("Mana [" + s_mana + "]");
-		
-		System.out.println("Main :");
-		for(Carte c : player.getMain())
-			System.out.println("\t" + c.toString());
-		
-		System.out.println("Terrain :");
-		for(int i = 1; i < player.getPlateau().size(); i++)
-			System.out.println(player.getPlateau().get(i).toString());
-	}
-	
+	/**
+	 * Obtient l'instace Joueur du joueur adverse
+	 * @param player joueur courant
+	 * @return son adversaire
+	 */
 	private Joueur getAdversaire(Joueur player){
 		if(player == this.joueur1)
 			return joueur2;
 		return joueur1;
 	}
 	
-	private void interpret(Carte c, Joueur player){
+	/**
+	 * Invoque une creature
+	 * @param crea
+	 * @param player
+	 */
+	private void applyInvoke(String crea, Joueur player){
+		Creature c = new Creature(crea);
+		player.invoke(c);
+	}
+	
+	/**
+	 * Applique un buff à la cible
+	 * @param dmg
+	 * @param life
+	 * @param player
+	 * @param target
+	 */
+	private void applyBuff(int dmg, int life, Joueur player, int target){
+		if(target < player.getPlateau().size())
+			player.getPlateau().get(target).buffCreature(life, dmg);
 		
+		//TODO erreur target
+	}
+	
+	/**
+	 * Inflique des dégats à la cible
+	 * @param dmg
+	 * @param player
+	 * @param target
+	 */
+	private void applyDmg(int dmg, Joueur player, int target){
+		if(target < player.getPlateau().size())
+			player.getPlateau().get(target).takeDamage(dmg);
+		
+		//TODO erreurs target
+	}
+	
+	/**
+	 * Fait piocher n carte au joueur
+	 * @param n
+	 * @param player
+	 */
+	private void applyDeck(int n, Joueur player){
+		for(int i = 0; i < n; i++)
+			player.pioche();
+	}
+	
+	/**
+	 * Applique l'effet au joueur
+	 * @param e effet
+	 * @param player joueur
+	 * @param target cible(dans le cas d'un BUFF ou d'un DMG)
+	 */
+	private void applyEngineOn(Engine e, Joueur player, int target){
+		switch (e.getType()) {
+		case INVOKE:
+			applyInvoke(e.getArgs()[0], player);
+			break;
+		
+		case BUFF:
+			applyBuff(
+					Integer.parseInt(e.getArgs()[0]),
+					Integer.parseInt(e.getArgs()[1]),
+					player, target);
+			break;
+			
+		case DAMAGE:
+			applyDmg(Integer.parseInt(e.getArgs()[0]), player, target);
+			break;
+			
+		case DECK:
+			applyDeck(Integer.parseInt(e.getArgs()[0]), player);
+			break;
+			
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Interprete l'effet d'une carte
+	 * @param c carte à interpreter
+	 * @param player joueur courant
+	 */
+	private void interpret(Carte c, Joueur player, int target){
+		for(Engine e : Engine.extractEffects(c.getEffect())){
+			switch(e.getTarget()){
+			case ALL:
+				applyEngineOn(e, player, target);
+				applyEngineOn(e, getAdversaire(player), target);
+				break;
+			
+			case PLAYER:
+				applyEngineOn(e, player, target);
+				break;
+				
+			case ADV:
+				applyEngineOn(e, getAdversaire(player), target);
+				break;
+			}
+		}
 	}
 	
 	
@@ -100,11 +183,11 @@ public class GamePanel {
 		
 		//Adversaire
 		System.out.println("Adversaire:");
-		drawPlayer(getAdversaire(player));
+		draw.drawPlayer(getAdversaire(player), true);
 		
 		//Joueur:
 		System.out.println("Vous:");
-		drawPlayer(player);
+		draw.drawPlayer(player, false);
 		
 		switch (menu("Que voullez vous faire", new String[]{"Jouer une carte", "Attaquer avec une creature", "Rien faire"})) {
 		case 0:

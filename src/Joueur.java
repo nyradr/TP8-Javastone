@@ -120,4 +120,12 @@ public class Joueur {
 				this.main.add(c);
 		}
 	}
+
+	/**
+	 * Ajoute une creature au terrain
+	 * @param c
+	 */
+	public void invoke(Creature c){
+		this.plateau.add(c);
+	}
 }

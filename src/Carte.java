@@ -60,8 +60,12 @@ public class Carte {
 		return this.descr;
 	}
 	
-	public int getMane(){
+	public int getMana(){
 		return this.manaCost;
+	}
+	
+	public String getEffect(){
+		return this.effect;
 	}
 	
 	public int getMax(){
