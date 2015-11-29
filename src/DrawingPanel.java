@@ -1,6 +1,7 @@
-import print.color.Ansi.*;
+import print.color.Ansi.Attribute;
+import print.color.Ansi.BColor;
+import print.color.Ansi.FColor;
 import print.color.ColoredPrinter;
-
 
 public class DrawingPanel {
 

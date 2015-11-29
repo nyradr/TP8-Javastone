@@ -1,8 +1,6 @@
 
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Stack;
 
 /**	Représente un deck de cartes
  * 	Un deck est une pile de carte
