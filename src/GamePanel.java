@@ -90,6 +90,11 @@ public class GamePanel {
 		return joueur1;
 	}
 	
+	private void interpret(Carte c, Joueur player){
+		
+	}
+	
+	
 	private void playerTurn(Joueur player){
 		player.newTurn();
 		
@@ -105,7 +110,14 @@ public class GamePanel {
 		
 		switch (menu("Que voullez vous faire", new String[]{"Jouer une carte", "Attaquer avec une creature", "Rien faire"})) {
 		case 0:
-			//TODO : jouer une carte
+			String[] strcartes = new String[player.getMain().size()];
+			for(int i = 0; i < strcartes.length; i++)
+				strcartes[i] = player.getMain().get(i).toString();
+			
+			int cartejouer = menu("Quelle carte jouez vous", strcartes);
+			
+			
+			
 			break;
 
 		case 1:

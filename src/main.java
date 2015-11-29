@@ -1,8 +1,9 @@
 
 public class main {
-	public static void main(String [] a){
-		GamePanel game = new GamePanel();
+	public static void main(String [] a)
+	{
+		Creature crea = new Creature("crea");
 		
-		game.startGame();
+		System.out.println(crea.toString());
 	}
 }
