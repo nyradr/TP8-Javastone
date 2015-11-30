@@ -1,4 +1,5 @@
-import print.color.Ansi.Attribute;
+import java.util.Scanner;
+
 import print.color.Ansi.BColor;
 import print.color.Ansi.FColor;
 import print.color.ColoredPrinter;
@@ -9,10 +10,12 @@ import print.color.ColoredPrinter;
  */
 public class DrawingPanel {
 
-	ColoredPrinter printer;
+	ColoredPrinter printer;		//gestionaire d'affichage
+	Scanner scan;				//gestion des entrées
 
 	public DrawingPanel(){
 		printer = new ColoredPrinter.Builder(1, false).foreground(FColor.WHITE).background(BColor.BLACK).build();
+		scan = new Scanner(System.in);
 	}
 	
 	/**
@@ -23,24 +26,106 @@ public class DrawingPanel {
 	}
 	
 	/**
-	 * Dessine une carte<br>
-	 * Ne passe pas à la ligne
-	 * @param c carte à dessiner
+	 * Affiche l'iterateur du menu
+	 * @param i
 	 */
-	public void drawCarte(Carte c){
-		printer.print("[" + c.getMana() + "]", Attribute.BOLD, FColor.GREEN, BColor.WHITE);
-		printer.print(c.getName() + " : " + c.getDescr(),
-				Attribute.BOLD, FColor.WHITE, BColor.WHITE);
+	public void drawMenuIterator(int i){
+		String s = Integer.toString(i);
+		
+		if(i < 10)
+			s += " ";
+		s += "- ";
+		printer.print(s);
 	}
 	
 	/**
-	 * Dessine une creature<br>
-	 * Ne passe pas à la ligne
-	 * @param c creature à dessiner
+	 * Dessine un menu d'object dessinables
+	 * @param items 
 	 */
-	public void drawCreature(Creature c){
-		printer.print(c.name());
-		printer.print(c.getDamage() + "/" + c.getLife());
+	public void drawMenu(Drawable [] items){
+		for(int i = 0; i < items.length; i++){
+			drawMenuIterator(i);
+			items[i].draw(printer);
+			newLine();
+		}
+	}
+	
+	/**
+	 * Dessine un menu de Strings
+	 * @param items
+	 */
+	public void drawMenu(String [] items){
+		for(int i = 0; i < items.length; i++){
+			drawMenuIterator(i);
+			printer.println(items[i]);
+		}
+	}
+	
+	/**
+	 * Affiche le titre du menu
+	 * @param title
+	 */
+	public void drawMenuTitle(String title){
+		printer.println(title);
+	}
+	
+	/**
+	 * Gère les entrée du menu<br>
+	 * les entrées sont comprisent entre 0 et max
+	 * @param max
+	 * @return
+	 */
+	public int menuInput(int max){
+		int val = -1;
+		try{
+			val = Integer.parseInt(scan.nextLine());
+			
+			if(val < 0 || val >= max)
+				throw new Exception();
+		}catch(Exception e){
+			printer.println("Input error");
+			val = -1;
+		}
+		
+		return val;
+	}
+	
+	/**
+	 * Gère un menu d'elements dessinables
+	 * @param title titre
+	 * @param items elements
+	 * @return valeur selectioner
+	 */
+	public int menu(String title, Drawable [] items){
+		int val = -1;
+		
+		drawMenuTitle(title);
+		
+		do{
+			drawMenu(items);
+			val = menuInput(items.length);
+		}while(val < 0);
+		
+		return val;
+	}
+	
+	/**
+	 * Gère un menu de strings
+	 * @param title titre
+	 * @param items elements
+	 * @return valeur selectioner
+	 */
+	public int menu(String title, String [] items){
+		int val = -1;
+		
+		drawMenuTitle(title);
+		
+		do{
+			drawMenu(items);
+			val = menuInput(items.length);
+		}while(val < 0);
+		
+		return val;
 	}
 	
 	/**
@@ -48,16 +133,16 @@ public class DrawingPanel {
 	 * @param mana valeur du mana
 	 * @param max mana maximal
 	 */
-	public void drawMana(int mana, int max){
-		printer.print("Mana [", Attribute.BOLD, FColor.BLUE, BColor.BLACK);
+	public void draw(int mana, int max){
+		printer.print("Mana [");
 		
 		for(int i = 0; i < max; i++){
 			if(i < mana)
-				printer.print("X", Attribute.BOLD, FColor.BLUE, BColor.BLACK);
+				printer.print("X");
 			else
-				printer.print("_", Attribute.BOLD, FColor.BLACK, BColor.BLACK);
+				printer.print("_");
 		}
-		printer.println("]", Attribute.BOLD, FColor.BLUE, BColor.BLACK);
+		printer.println("]");
 	}
 	
 	/**
@@ -65,22 +150,22 @@ public class DrawingPanel {
 	 * @param player
 	 * @param adv true si on dessine l'adversaire. La main du joueur seras cacher.
 	 */
-	public void drawPlayer(Joueur player, boolean adv){
-		printer.println("Points de vie " + player.getLife() + " pv");
+	public void draw(Joueur player, boolean adv){
+		printer.println("Points de vie : " + player.getLife() + " pv");
 		
-		drawMana(player.getMana(), player.getManaMax());
+		draw(player.getMana(), player.getManaMax());
 		
-		printer.print("Main :");
+		printer.println("Main :");
 		if(!adv){
 			for(Carte c : player.getMain())
 				printer.println("\t" + c.toString());
 		}else{
-			printer.println(player.getMain());
+			printer.println(player.getMain().size() + " carte(s) dans la main");
 		}
 		
 		printer.println("Terrain :");
 		for(int i = 1; i < player.getPlateau().size(); i++)
-			printer.println(player.getPlateau().get(i).toString());
+			printer.println("\t" + player.getPlateau().get(i).toString());
 	}
 	
 	/**

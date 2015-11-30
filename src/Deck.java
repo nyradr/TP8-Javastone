@@ -43,11 +43,18 @@ public class Deck {
 		return ! (this.deck.size() < this.nmax);
 	}
 	
+	/**
+	 * @return le nombre de cartes restantes dans le deck
+	 */
+	public int size(){
+		return deck.size();
+	}
+	
 	/**	Ajoute une carte au deck
 	 * 	@param c	: carte à ajouter
 	 */
 	public void addCard(Carte c){
-		if(this.deck.size() < this.nmax && occurInDeck(c) < c.getMax())
+		if(this.deck.size() < this.nmax)
 			this.deck.add(c);
 	}
 	

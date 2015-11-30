@@ -1,15 +1,15 @@
-
+import print.color.ColoredPrinter;
 
 /**	Représente une créature
  * 	DONE
  */
-public class Creature {
+public class Creature extends Drawable{
 	private int life;				//point de vie restant
 	private int damage;				//attaque
 	
 	private boolean guardian;		//indique s'il est un guardien
 	
-	private String name;
+	private String name;			//nom de la creature
 	
 	/**
 	 * Contructeur basique
@@ -47,12 +47,14 @@ public class Creature {
 		}
 	}
 	
-	public String name(){
+	/**
+	 * @return nom de la creature
+	 */
+	public String getName(){
 		return this.name;
 	}
 	
-	/**œœ
-	 * Donne les pv restant
+	/**
 	 * @return le nombre de pv restant
 	 */
 	public int getLife(){
@@ -104,5 +106,11 @@ public class Creature {
 	
 	public String toString(){
 		return this.name + "," + this.damage + "/" + this.life;
+	}
+
+	@Override
+	public void draw(ColoredPrinter printer) {
+		printer.print(this.getName());
+		printer.print(this.getDamage() + "/" + this.getLife());
 	}
 }

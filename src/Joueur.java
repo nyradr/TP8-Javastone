@@ -1,27 +1,32 @@
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe joueur
  * TODO
  *
  */
-public class Joueur {
+public class Joueur{
 	
-	private Deck deck;
-	private ArrayList<Carte> main;
-	private int mainmax;
+	private String name;						//nom du joueur
 	
-	private ArrayList<Creature> plateau;
+	private Deck deck;							//deck
+	private ArrayList<Carte> main;				//cartes en main
+	private int mainmax;						//nombre de cartes maximales en main
 	
-	private int mana;
-	private int manamax;
+	private ArrayList<Creature> plateau;		//Creatures sur le terrain
+	
+	private int mana;							//mana actuelle
+	private int manamax;						//mana maximale
 	
 	/**
 	 * Nouveau joueur
 	 */
-	public Joueur(){
+	public Joueur(String name){
+		this.name = name;
+		
 		this.deck = new Deck(30);
 		this.main = new ArrayList<Carte>();
 		this.plateau = new ArrayList<Creature>();
@@ -34,16 +39,39 @@ public class Joueur {
 		this.manamax = 10;
 	}
 	
+	/**
+	 * @return vie restante
+	 */
 	public int getLife(){
 		return this.plateau.get(0).getLife();
 	}
 	
+	/**
+	 * @return mana
+	 */
 	public int getMana(){
 		return this.mana;
 	}
 	
+	/**
+	 * @return mana maximale
+	 */
 	public int getManaMax(){
 		return this.mainmax;
+	}
+	
+	/**
+	 * @return nom du joueur
+	 */
+	public String getName(){
+		return this.name;
+	}
+
+	/**
+	 * @param name change le nom du joueur
+	 */
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	/**
@@ -58,7 +86,7 @@ public class Joueur {
 	 * Retourne la créature représentant le joueur
 	 * @return
 	 */
-	private Creature getPlayerInstance(){
+	public Creature getPlayerInstance(){
 		return this.plateau.get(0);
 	}
 	
@@ -72,14 +100,14 @@ public class Joueur {
 	/**
 	 * @return retourne la main du joueur
 	 */
-	public ArrayList<Carte> getMain(){
+	public List<Carte> getMain(){
 		return this.main;
 	}
 	
 	/**
 	 * @return retourne le plateur du jeu. L'element 0 représente la créature Joueur
 	 */
-	public ArrayList<Creature> getPlateau(){
+	public List<Creature> getPlateau(){
 		return this.plateau;
 	}
 	
@@ -114,13 +142,21 @@ public class Joueur {
 	 */
 	public void pioche(){
 		Carte c = this.deck.pioche();
-		
 		if(c != null){
 			if(this.main.size() < this.mainmax)
 				this.main.add(c);
 		}
 	}
-
+	
+	/**
+	 * Le joueur joue la carte c, reduction du mana et la carte est retirer de la main
+	 * @param c
+	 */
+	public void playCard(Carte c){
+		this.mana -= c.getMana();
+		this.main.remove(c);
+	}
+	
 	/**
 	 * Ajoute une creature au terrain
 	 * @param c

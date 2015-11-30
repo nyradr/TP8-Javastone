@@ -16,14 +16,23 @@ public class Engine {
 		this.args = args;
 	}
 	
+	/**
+	 * @return type de la carte
+	 */
 	public CardType getType(){
 		return this.type;
 	}
 	
+	/**
+	 * @return cible de la carte
+	 */
 	public EngineTarget getTarget(){
 		return qui;
 	}
 	
+	/**
+	 * @return arguments
+	 */
 	public String [] getArgs(){
 		return args;
 	}

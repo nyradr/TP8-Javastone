@@ -2,10 +2,10 @@
  * Type possible d'une care
  */
 public enum CardType {
-	INVOKE	(0),
-	BUFF	(1),
-	DAMAGE	(2),
-	DECK	(3);
+	INVOKE	(0),		//code pour l'invocation d'une creature
+	BUFF	(1),		//applique un buffer à une creature
+	DAMAGE	(2),		//applique un domage à une creature
+	DECK	(3);		//fait piocher dans le deck
 	
 	private int val;
 	

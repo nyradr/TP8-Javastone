@@ -3,9 +3,9 @@
  * Cibles possible pour un effet
  */
 public enum EngineTarget {
-	ALL		(0),
-	PLAYER	(1),
-	ADV		(2);
+	ALL		(0),		//cible tous les joueurs
+	PLAYER	(1),		//cible le joueur courant
+	ADV		(2);		//cible l'adversaire
 	
 	private int val;
 	

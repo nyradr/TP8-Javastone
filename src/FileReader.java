@@ -61,15 +61,4 @@ public class FileReader {
 		
 		return null;
 	}
-	
-	
-	public static void main(String[] a){
-		String[] t = loadFile("crea", "crea");
-		
-		if(t == null)
-			return;
-		
-		for(String s : t)
-			System.out.println(s);
-	}
 }
