@@ -2,104 +2,131 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-/**	Représente un deck de cartes
- * 	Un deck est une pile de carte
+/**
+ * Représente un deck de cartes Un deck est une pile de carte
  */
 public class Deck {
-	
-	ArrayList<Carte> deck;	//pile de cartes, le haut de la pile est la fin de la liste
-	
-	int nmax;				//nombre maximal d'elements
-	
-	/**	Constructeur
-	 * 	@param n : nombre max de cartes
+
+	private ArrayList<Carte> deck; // pile de cartes, le haut de la pile est la
+									// fin de la liste
+
+	private int nmax; // nombre maximal d'elements
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param n
+	 *            : nombre max de cartes
 	 */
-	public Deck(int n){
+	public Deck(int n) {
 		this.deck = new ArrayList<Carte>(n);
 		this.nmax = n;
 	}
-	
+
 	/**
 	 * Charge un deck depuis un fichier
-	 * @param n nombre max de cartes dans le deck
-	 * @param file fichier de deck à charger
+	 * 
+	 * @param n
+	 *            nombre max de cartes dans le deck
+	 * @param file
+	 *            fichier de deck à charger
 	 */
-	public Deck(int n, String file){
-		
+	public Deck(int n, String file) throws Exception {
+		for (String name : FileReader.loadFile(FileReader.FOLD_DECK, file))
+			this.addCard(new Carte(name));
 	}
-	
-	/**	Indique si le deck est vide
-	 * 	@return true si le deck est vide
+
+	/**
+	 * Indique si le deck est vide
+	 * 
+	 * @return true si le deck est vide
 	 */
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return this.deck.size() == 0;
 	}
-	
-	/**	Indique si le deck est plein
-	 * 	Un deck est plein quand le nombre de carte qu'il contient est egal au nombre max de cartes authoriser
-	 * 	@return	true si le deck est plein
+
+	/**
+	 * Indique si le deck est plein Un deck est plein quand le nombre de carte
+	 * qu'il contient est egal au nombre max de cartes authoriser
+	 * 
+	 * @return true si le deck est plein
 	 */
-	public boolean isFull(){
-		return ! (this.deck.size() < this.nmax);
+	public boolean isFull() {
+		return !(this.deck.size() < this.nmax);
 	}
-	
+
 	/**
 	 * @return le nombre de cartes restantes dans le deck
 	 */
-	public int size(){
+	public int size() {
 		return deck.size();
 	}
-	
-	/**	Ajoute une carte au deck
-	 * 	@param c	: carte à ajouter
+
+	/**
+	 * @return obtient la taille maximale du deck
 	 */
-	public void addCard(Carte c){
-		if(this.deck.size() < this.nmax)
+	public int getMax() {
+		return nmax;
+	}
+
+	/**
+	 * Ajoute une carte au deck
+	 * 
+	 * @param c
+	 *            : carte à ajouter
+	 */
+	public void addCard(Carte c) {
+		if (this.deck.size() < this.nmax)
 			this.deck.add(c);
 	}
-	
-	/**	Mélange le deck alèatoirement
+
+	/**
+	 * Mélange le deck alèatoirement
 	 */
-	public void generateAleat(){
+	public void generateAleat() {
 		ArrayList<Carte> newdeck = new ArrayList<Carte>(this.nmax);
 		Random rand = new Random();
-		
-		for(int i = 0; i < this.deck.size(); i++){
+
+		for (int i = 0; i < this.deck.size(); i++) {
 			int it = rand.nextInt(this.deck.size());
-			
+
 			newdeck.add(this.deck.get(it));
 			this.deck.remove(it);
 		}
-		
+
 		this.deck = newdeck;
 	}
-	
-	/**	Pioche la carte situer au sommet du deck 
-	 * 	@return carte piocher ou null si le deck est vide
+
+	/**
+	 * Pioche la carte situer au sommet du deck
+	 * 
+	 * @return carte piocher ou null si le deck est vide
 	 */
-	public Carte pioche(){
-		int it = this.deck.size() -1;
+	public Carte pioche() {
+		int it = this.deck.size() - 1;
 		Carte c = null;
-		
-		if(it >= 0)
+
+		if (it >= 0)
 			c = this.deck.remove(it);
-		
+
 		return c;
 	}
-	
+
 	/**
 	 * Donne le nombre de fois que la carte apparait dans le deck
-	 * @param c carte
+	 * 
+	 * @param c
+	 *            carte
 	 * @return nombre d'occurences de la carte
 	 */
-	public int occurInDeck(Carte crt){
+	public int occurInDeck(Carte crt) {
 		int occ = 0;
-		
-		for(Carte c : this.deck){
-			if(c.getName().equals(crt.getName()))
+
+		for (Carte c : this.deck) {
+			if (c.getName().equals(crt.getName()))
 				occ++;
 		}
-		
+
 		return occ;
 	}
 }
