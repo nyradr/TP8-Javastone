@@ -136,6 +136,9 @@ public class Joueur {
 			if (this.plateau.get(i).isDead())
 				this.plateau.remove(i);
 		}
+		
+		if(!this.deck.isEmpty())
+			pioche();
 	}
 
 	/**

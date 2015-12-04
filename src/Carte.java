@@ -8,6 +8,8 @@ public class Carte extends Drawable {
 	private int manaCost; // cout en mana
 
 	private String name; // nom de la carte
+	public String filename;
+	
 	private String descr; // description utilisateur de la carte
 
 	private String effect; // effets de la carte
@@ -43,7 +45,8 @@ public class Carte extends Drawable {
 	 */
 	public Carte(String name) throws Exception {
 		String[] lines = FileReader.loadFile(FileReader.FOLD_CART, name);
-
+		
+		this.filename = name;
 		this.name = lines[0];
 		this.descr = lines[1];
 		this.effect = lines[2];
@@ -56,6 +59,10 @@ public class Carte extends Drawable {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getFileName(){
+		return this.filename;
 	}
 
 	/**

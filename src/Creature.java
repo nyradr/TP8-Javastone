@@ -10,6 +10,7 @@ public class Creature extends Drawable {
 	private boolean guardian; // indique s'il est un guardien
 
 	private String name; // nom de la creature
+	private String fileName;
 
 	/**
 	 * Contructeur basique
@@ -42,6 +43,7 @@ public class Creature extends Drawable {
 	public Creature(String nom) throws Exception {
 		String[] lines = FileReader.loadFile(FileReader.FOLD_CREA, nom);
 
+		this.fileName = nom;
 		this.name = lines[0];
 		this.damage = Integer.parseInt(lines[1]);
 		this.life = Integer.parseInt(lines[2]);
@@ -55,6 +57,8 @@ public class Creature extends Drawable {
 	public String getName() {
 		return this.name;
 	}
+	
+	
 
 	/**
 	 * @return le nombre de pv restant

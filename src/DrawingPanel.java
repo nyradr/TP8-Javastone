@@ -163,7 +163,11 @@ public class DrawingPanel {
 
 		for (int i = 0; i < deck.getMax(); i++) {
 			int choix = menu("Il vous reste " + (deck.getMax() - deck.size()) + " cartes à placer", cartesDispo.toArray(new Carte[0]));
-			deck.addCard(cartesDispo.get(choix));
+			try {
+				deck.addCard(new Carte(cartesDispo.get(choix).getFileName()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

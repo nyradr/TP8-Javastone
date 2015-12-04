@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -84,17 +86,7 @@ public class Deck {
 	 * Mélange le deck alèatoirement
 	 */
 	public void generateAleat() {
-		ArrayList<Carte> newdeck = new ArrayList<Carte>(this.nmax);
-		Random rand = new Random();
-
-		for (int i = 0; i < this.deck.size(); i++) {
-			int it = rand.nextInt(this.deck.size());
-
-			newdeck.add(this.deck.get(it));
-			this.deck.remove(it);
-		}
-
-		this.deck = newdeck;
+		Collections.shuffle(this.deck);
 	}
 
 	/**

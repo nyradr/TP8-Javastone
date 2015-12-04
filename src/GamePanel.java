@@ -171,13 +171,16 @@ public class GamePanel {
 	 * 
 	 * @param player
 	 */
-	private void attaque(Joueur player) {
+	private boolean attaque(Joueur player) {
+		if(player.getPlateau().size() <= 1)
+			return false;
+		
 		Creature attaquant;
 		Creature cible;
 
 		do {
 			attaquant = player.getPlateau()
-					.get(draw.menu("Attquant", (Drawable[]) player.getPlateau().toArray(new Creature[0])));
+					.get(draw.menu("Attquant", (Drawable[]) player.getPlateau().subList(1, player.getPlateau().size() -1).toArray(new Creature[0])));
 			cible = getAdversaire(player).getPlateau().get(
 					draw.menu("defenseur", (Drawable[]) getAdversaire(player).getPlateau().toArray(new Creature[0])));
 		} while (attaquant == player.getPlayerInstance()
@@ -185,6 +188,8 @@ public class GamePanel {
 
 		cible.takeDamage(attaquant.getDamage());
 		attaquant.takeDamage(cible.getDamage());
+		
+		return true;
 	}
 
 	/**
@@ -205,21 +210,24 @@ public class GamePanel {
 		draw.getPrinter().println("\nVous:");
 		draw.draw(player, false);
 
-		switch (draw.menu("Que voullez vous faire",
-				new String[] { "Jouer une carte", "Attaquer avec une creature", "Rien faire" })) {
-		case 0:
-			if (!player.getMain().isEmpty())
-				playCard(player);
-			break;
-
-		case 1:
-			if (player.getPlateau().size() > 1)
-				attaque(player);
-			break;
-
-		default:
-			draw.getPrinter().println("Vous n'avez rien fait");
-			break;
+		boolean end = false;
+			while(!end){
+			switch (draw.menu("Que voullez vous faire",
+					new String[] { "Jouer une carte", "Attaquer avec une creature", "Fin du tour" })) {
+			case 0:
+				if (!player.getMain().isEmpty())
+					playCard(player);
+				break;
+	
+			case 1:
+				if (player.getPlateau().size() > 1)
+					attaque(player);
+				break;
+	
+			default:
+				end = true;
+				break;
+			}
 		}
 	}
 
@@ -229,17 +237,18 @@ public class GamePanel {
 	 */
 	private void initPlayer(Joueur player){
 		System.out.println("Initialisation de " + player.getName());
-		/*
+		
 		if (draw.menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
 			System.out.println("depuis un deck");
 			
 		}else{
 			System.out.println("manuelle");
 			draw.buildDeck(player.getDeck());
-		}*/
+		}
 		
-		player.getDeck().addCard(new Carte(CardType.INVOKE, 1, "test", "test", "0 1 crea"));
-		player.pioche();
+		player.getDeck().generateAleat();
+		for(int i = 0; i < 2; i++)
+			player.pioche();
 		
 		
 	}
