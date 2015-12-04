@@ -129,6 +129,8 @@ public class GamePanel {
 	 *            joueur courant
 	 */
 	private void interpret(Carte c, Joueur player) {
+		System.out.println(c.getEffect());
+		
 		for (Engine e : Engine.extractEffects(c.getEffect())) {
 			switch (e.getTarget()) {
 			case ALL:
@@ -235,10 +237,8 @@ public class GamePanel {
 			System.out.println("manuelle");
 			draw.buildDeck(player.getDeck());
 		}*/
-		draw.lo
 		
-		
-		player.getDeck().addCard(new Carte(CardType.INVOKE, 1, "test", "test", "0 3 crea"));
+		player.getDeck().addCard(new Carte(CardType.INVOKE, 1, "test", "test", "0 1 crea"));
 		player.pioche();
 		
 		
