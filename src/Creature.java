@@ -3,7 +3,7 @@ import print.color.ColoredPrinter;
 /**
  * Représente une créature DONE
  */
-public class Creature extends Drawable {
+public class Creature extends Jouable {
 	private int life; // point de vie restant
 	private int damage; // attaque
 
@@ -123,8 +123,8 @@ public class Creature extends Drawable {
 	}
 
 	@Override
-	public void draw(ColoredPrinter printer) {
-		printer.print(this.getName());
-		printer.print(this.getDamage() + "/" + this.getLife());
+	public void draw(DrawingPanel printer) {
+		printer.getPrinter().print(this.getName());
+		printer.getPrinter().print(this.getDamage() + "/" + this.getLife());
 	}
 }

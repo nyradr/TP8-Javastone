@@ -9,5 +9,5 @@ public abstract class Drawable {
 	 * Methode de dessin
 	 * @param printer
 	 */
-	public abstract void draw(ColoredPrinter printer);
+	public abstract void draw(DrawingPanel printer);
 }

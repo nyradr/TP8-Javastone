@@ -3,16 +3,12 @@ import print.color.ColoredPrinter;
 /**
  * Ajout du système de fichier
  */
-public class Carte extends Drawable {
+public class Carte extends Jouable {
 	private CardType type; // type de la carte
 	private int manaCost; // cout en mana
-
-	private String name; // nom de la carte
-	public String filename;
 	
 	private String descr; // description utilisateur de la carte
 
-	private String effect; // effets de la carte
 	private int maxelem; // nombre max d'occurences de la carte dans le deck
 
 	/**
@@ -46,23 +42,12 @@ public class Carte extends Drawable {
 	public Carte(String name) throws Exception {
 		String[] lines = FileReader.loadFile(FileReader.FOLD_CART, name);
 		
-		this.filename = name;
+		this.fileName = name;
 		this.name = lines[0];
 		this.descr = lines[1];
-		this.effect = lines[2];
+		this.effet = new Engine(lines[2]);
 		this.manaCost = Integer.parseInt(lines[3]);
 		this.maxelem = Integer.parseInt(lines[4]);
-	}
-
-	/**
-	 * @return nom de la carte
-	 */
-	public String getName() {
-		return this.name;
-	}
-	
-	public String getFileName(){
-		return this.filename;
 	}
 
 	/**
@@ -80,13 +65,6 @@ public class Carte extends Drawable {
 	}
 
 	/**
-	 * @return effects
-	 */
-	public String getEffect() {
-		return this.effect;
-	}
-
-	/**
 	 * @return nombre max d'occurence dans le deck
 	 */
 	public int getMax() {
@@ -100,8 +78,8 @@ public class Carte extends Drawable {
 	}
 
 	@Override
-	public void draw(ColoredPrinter printer) {
-		printer.print("[" + this.getMana() + "]");
-		printer.print(this.getName() + " : " + this.getDescr());
+	public void draw(DrawingPanel printer) {
+		printer.getPrinter().print("[" + this.getMana() + "]");
+		printer.getPrinter().print(this.getName() + " : " + this.getDescr());
 	}
 }

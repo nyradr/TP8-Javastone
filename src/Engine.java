@@ -6,14 +6,26 @@ import java.util.List;
  */
 public class Engine {
 
-	private CardType type; // type de la carte
-	private EngineTarget qui; // cible de d'effet
+	private CardType	type;		// type de la carte
+	private Declancheur	decl;		// declancheur de l'effet
+	private Target 		qui; 		// cible de d'effet
+	private Target		modif;		// modificateur
+	private int			bpv;		// buff(ou degats si negatif) de pv
+	private	int			bdmg;		// buff de degats
+	private int			gardien;	// changement d'etat du gardien
+	private int			pioche;		// nombre de cartes à piocher(renvois si negatif)
+	private String		transfo;	// transforme la cible en la creature
+	
 	private String[] args; // arguments eventuels
 
-	public Engine(CardType type, EngineTarget qui, String[] args) {
+	public Engine(CardType type, Target qui, String[] args) {
 		this.type = type;
 		this.qui = qui;
 		this.args = args;
+	}
+	
+	public Engine(String str){
+		
 	}
 
 	/**
@@ -26,7 +38,7 @@ public class Engine {
 	/**
 	 * @return cible de la carte
 	 */
-	public EngineTarget getTarget() {
+	public Target getTarget() {
 		return qui;
 	}
 
@@ -73,7 +85,7 @@ public class Engine {
 			for (i = 2; i < args.size(); i++)
 				cmdargs[i - 2] = args.get(i);
 
-			engine = new Engine(CardType.fromString(args.get(0)), EngineTarget.fromString(args.get(1)), cmdargs);
+			engine = new Engine(CardType.fromString(args.get(0)), Target.fromString(args.get(1)), cmdargs);
 		}
 		return engine;
 	}
