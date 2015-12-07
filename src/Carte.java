@@ -1,5 +1,3 @@
-import print.color.ColoredPrinter;
-
 /**
  * Ajout du système de fichier
  */
@@ -29,7 +27,7 @@ public class Carte extends Jouable {
 		this.type = type;
 		this.manaCost = manaCost;
 		this.name = name;
-		this.effect = effect;
+		this.effets = Engine.extractEffects(effect);
 		this.descr = descr;
 	}
 
@@ -45,7 +43,7 @@ public class Carte extends Jouable {
 		this.fileName = name;
 		this.name = lines[0];
 		this.descr = lines[1];
-		this.effet = new Engine(lines[2]);
+		this.effets = Engine.extractEffects(lines[2]);
 		this.manaCost = Integer.parseInt(lines[3]);
 		this.maxelem = Integer.parseInt(lines[4]);
 	}

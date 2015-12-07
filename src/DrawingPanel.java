@@ -55,7 +55,7 @@ public class DrawingPanel {
 	public void drawMenu(Drawable[] items) {
 		for (int i = 0; i < items.length; i++) {
 			drawMenuIterator(i);
-			items[i].draw(printer);
+			items[i].draw(this);
 			newLine();
 		}
 	}

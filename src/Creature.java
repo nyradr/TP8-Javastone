@@ -1,11 +1,9 @@
-import print.color.ColoredPrinter;
-
 /**
  * Représente une créature DONE
  */
-public class Creature extends Jouable {
-	private int life; // point de vie restant
-	private int damage; // attaque
+public class Creature extends Jouable implements IEngineTarget{
+	private int life; 		// point de vie restant
+	private int damage; 	// attaque
 
 	private boolean guardian; // indique s'il est un guardien
 
@@ -22,7 +20,7 @@ public class Creature extends Jouable {
 	 * @param guardian
 	 *            : guardien?
 	 */
-	public Creature(String name, int life, int damage, boolean guardian) {
+	public Creature(String name, int life, int damage, boolean guardian, String effets) {
 		this.life = life;
 		this.name = name;
 
@@ -32,6 +30,7 @@ public class Creature extends Jouable {
 			this.damage = damage;
 
 		this.guardian = guardian;
+		this.effets = Engine.extractEffects(effets);
 	}
 
 	/**
@@ -41,6 +40,10 @@ public class Creature extends Jouable {
 	 *            nom de la creature
 	 */
 	public Creature(String nom) throws Exception {
+		loadFromFile(nom);
+	}
+	
+	private void loadFromFile(String nom) throws Exception{
 		String[] lines = FileReader.loadFile(FileReader.FOLD_CREA, nom);
 
 		this.fileName = nom;
@@ -49,6 +52,7 @@ public class Creature extends Jouable {
 		this.life = Integer.parseInt(lines[2]);
 
 		this.guardian = lines[3].charAt(0) == '1';
+		this.effets = Engine.extractEffects(lines[4]);
 	}
 
 	/**
@@ -57,8 +61,6 @@ public class Creature extends Jouable {
 	public String getName() {
 		return this.name;
 	}
-	
-	
 
 	/**
 	 * @return le nombre de pv restant
@@ -126,5 +128,21 @@ public class Creature extends Jouable {
 	public void draw(DrawingPanel printer) {
 		printer.getPrinter().print(this.getName());
 		printer.getPrinter().print(this.getDamage() + "/" + this.getLife());
+	}
+
+	@Override
+	public void eng_invoke(String name) throws Exception {
+		if(name.length() == 0)
+			loadFromFile(name);
+	}
+
+	@Override
+	public void eng_buff(int pv, int dmg) throws Exception {
+		buffCreature(pv, dmg);
+	}
+
+	@Override
+	public void eng_deck(int nbr) throws Exception {
+		throw new Exception();
 	}
 }

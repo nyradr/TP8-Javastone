@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sun.xml.internal.ws.message.stream.StreamAttachment;
+
 public class GamePanel {
 
 	private Joueur joueur1;
@@ -24,100 +29,82 @@ public class GamePanel {
 			return joueur2;
 		return joueur1;
 	}
-
-	/**
-	 * Invoque une creature
-	 * 
-	 * @param crea
-	 * @param player
-	 */
-	private void applyInvoke(String crea, Joueur player) {
-		try {
-			Creature c = new Creature(crea);
-			player.invoke(c);
-		} catch (Exception e) {
-			draw.getPrinter().print("Error : impossible de charger la creature " + crea);
-		}
+	
+	private Creature choseCrea(Joueur player, boolean sp){
+		List<Creature> creas = player.getPlateau();
+		if(sp)
+			creas = player.getCrea();
+		
+		int item = draw.menu("Choisisez une cible", creas.toArray(new Creature[0]));
+		
+		if(sp)
+			return player.getCrea().get(item);
+		else
+			return player.getPlateau().get(item);
 	}
 
-	/**
-	 * Applique un buff à la cible
-	 * 
-	 * @param dmg
-	 * @param life
-	 * @param player
-	 * @param target
-	 */
-	private void applyBuff(int dmg, int life, Joueur player, int target) {
-
-		if (target < player.getPlateau().size())
-			player.getPlateau().get(target).buffCreature(life, dmg);
-
-		// TODO erreur target
-	}
-
-	/**
-	 * Inflique des dégats à la cible
-	 * 
-	 * @param dmg
-	 * @param player
-	 * @param target
-	 */
-	private void applyDmg(int dmg, Joueur player, int target) {
-		if (target < player.getPlateau().size())
-			player.getPlateau().get(target).takeDamage(dmg);
-
-		// TODO erreurs target
-	}
-
-	/**
-	 * Fait piocher n carte au joueur
-	 * 
-	 * @param n
-	 * @param player
-	 */
-	private void applyDeck(int n, Joueur player) {
-		for (int i = 0; i < n; i++)
-			player.pioche();
-	}
-
-	/**
-	 * Applique l'effet au joueur
-	 * 
-	 * @param e
-	 *            effet
-	 * @param player
-	 *            joueur
-	 * @param target
-	 *            cible(dans le cas d'un BUFF ou d'un DMG)
-	 */
-	private void applyEngineOn(Engine e, Joueur player) {
-		int target = 0;
-
-		if (e.getType() == CardType.BUFF || e.getType() == CardType.DAMAGE) {
-			target = draw.menu("Cible", (Drawable[]) player.getPlateau().toArray());
-		}
-
-		switch (e.getType()) {
-		case INVOKE:
-			applyInvoke(e.getArgs()[0], player);
+	private List<IEngineTarget> gettargets(Joueur player, Target t){
+		List<IEngineTarget> targets = new ArrayList<IEngineTarget>();
+		
+		switch (t) {
+		case ALLPLAYER:
+			targets.add(player);
+			targets.add(getAdversaire(player));
 			break;
 
-		case BUFF:
-			applyBuff(Integer.parseInt(e.getArgs()[0]), Integer.parseInt(e.getArgs()[1]), player, target);
+		case PLAYER:
+			targets.add(player);
 			break;
-
-		case DAMAGE:
-			applyDmg(Integer.parseInt(e.getArgs()[0]), player, target);
+			
+		case ADV:
+			targets.add(getAdversaire(player));
 			break;
-
-		case DECK:
-			applyDeck(Integer.parseInt(e.getArgs()[0]), player);
+			
+		case ALLCREA:
+			targets.addAll(player.getCrea());
+			targets.addAll(getAdversaire(player).getCrea());
 			break;
+			
+		case PLAYERCREA:
+			targets.addAll(player.getCrea());
+			break;
+			
+		case ADVCREA:
+			targets.addAll(player.getCrea());
+			break;
+			
+		case ALL:
+			targets.addAll(player.getPlateau());
+			targets.addAll(getAdversaire(player).getPlateau());
+			break;
+			
+		case CHOSEADV:
+			targets.add(choseCrea(getAdversaire(player), false));
+			break;
+			
+		case CHOSEPLAYER:
+			targets.add(choseCrea(player, false));
+			break;
+			
+		case CHOSEALL:
+			switch (draw.menu("Equipe cible", new String[]{"Vous", "Adversaire"})) {
+			case 0:
+				targets.add(choseCrea(player, false));
+				break;
+			case 1:
+				targets.add(choseCrea(getAdversaire(player), false));
+				break;
 
+			default:
+				break;
+			}
+			break;
+			
 		default:
 			break;
 		}
+		
+		return targets;
 	}
 
 	/**
@@ -127,24 +114,31 @@ public class GamePanel {
 	 *            carte à interpreter
 	 * @param player
 	 *            joueur courant
+	 * @throws Exception 
 	 */
-	private void interpret(Carte c, Joueur player) {
-		System.out.println(c.getEffect());
+	private void interpret(Jouable c, Joueur player, Declancheur event) throws Exception {
+		int nbr = 0;
 		
-		for (Engine e : Engine.extractEffects(c.getEffect())) {
-			switch (e.getTarget()) {
-			case ALL:
-				applyEngineOn(e, player);
-				applyEngineOn(e, getAdversaire(player));
-				break;
-
-			case PLAYER:
-				applyEngineOn(e, player);
-				break;
-
-			case ADV:
-				applyEngineOn(e, getAdversaire(player));
-				break;
+		for (Engine e : c.getEffets(event)) {
+			for(IEngineTarget t : gettargets(player, e.getTarget())){
+				switch (e.getType()) {
+				case INVOKE:
+					t.eng_invoke(e.getArgs()[0]);
+					break;
+					
+				case BUFF:
+					t.eng_buff(Integer.parseInt(e.getArgs()[0])
+							,Integer.parseInt(e.getArgs()[1]));
+					break;
+					
+				case DECK:
+					nbr = Integer.parseInt(e.getArgs()[0]);
+					if(nbr == 0)
+						nbr = getAdversaire(player).getCrea().size();
+					
+					t.eng_deck(nbr);
+					break;
+				}
 			}
 		}
 	}
@@ -160,8 +154,12 @@ public class GamePanel {
 		Carte cj = player.getMain().get(cartejouer);
 
 		if (cj.getMana() <= player.getMana()) {
-			interpret(player.getMain().get(cartejouer), player);
-			player.playCard(cj);
+			try{
+				interpret(player.getMain().get(cartejouer), player, Declancheur.PLAY);
+				player.playCard(cj);
+			}catch(Exception e){
+				draw.getPrinter().println("Erreur : Impossible d'appliquer l'effet de la carte, elle n'est donc pas jouer");
+			}
 		} else
 			draw.draw("Pas assez de mana");
 	}

@@ -6,7 +6,7 @@ import java.util.List;
  * Classe joueur TODO
  *
  */
-public class Joueur {
+public class Joueur implements IEngineTarget{
 
 	private String name; // nom du joueur
 
@@ -29,7 +29,7 @@ public class Joueur {
 		this.main = new ArrayList<Carte>();
 		this.plateau = new ArrayList<Creature>();
 
-		this.plateau.add(new Creature("Joueur", 30, 0, false));
+		this.plateau.add(new Creature("Joueur", 30, 0, false, ""));
 
 		this.mainmax = 10;
 
@@ -113,6 +113,10 @@ public class Joueur {
 		return this.plateau;
 	}
 
+	public List<Creature> getCrea(){
+		return this.plateau.subList(1, this.plateau.size());
+	}
+	
 	/**
 	 * @return indique si le joueur à un guardien sur le plateau
 	 */
@@ -171,5 +175,21 @@ public class Joueur {
 	 */
 	public void invoke(Creature c) {
 		this.plateau.add(c);
+	}
+
+	@Override
+	public void eng_invoke(String name) throws Exception {
+		invoke(new Creature(name));
+	}
+
+	@Override
+	public void eng_buff(int pv, int dmg) throws Exception {
+		getPlayerInstance().buffCreature(pv, dmg);		
+	}
+
+	@Override
+	public void eng_deck(int nbr) throws Exception {
+		for(int i = 0; i < nbr; i++)
+			pioche();
 	}
 }

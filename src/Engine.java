@@ -6,26 +6,17 @@ import java.util.List;
  */
 public class Engine {
 
-	private CardType	type;		// type de la carte
-	private Declancheur	decl;		// declancheur de l'effet
-	private Target 		qui; 		// cible de d'effet
-	private Target		modif;		// modificateur
-	private int			bpv;		// buff(ou degats si negatif) de pv
-	private	int			bdmg;		// buff de degats
-	private int			gardien;	// changement d'etat du gardien
-	private int			pioche;		// nombre de cartes à piocher(renvois si negatif)
-	private String		transfo;	// transforme la cible en la creature
+	private CardType		type;		// type de la carte
+	private Declancheur		decl;		// declancheur de l'effet
+	private Target 			qui; 		// cible de d'effet
+	private String[]		args;		//argument
 	
-	private String[] args; // arguments eventuels
 
-	public Engine(CardType type, Target qui, String[] args) {
+	public Engine(CardType type, Declancheur decl, Target qui, String[] args) {
 		this.type = type;
 		this.qui = qui;
+		this.decl = decl;
 		this.args = args;
-	}
-	
-	public Engine(String str){
-		
 	}
 
 	/**
@@ -33,6 +24,10 @@ public class Engine {
 	 */
 	public CardType getType() {
 		return this.type;
+	}
+	
+	public Declancheur getDecl(){
+		return this.decl;
 	}
 
 	/**
@@ -79,13 +74,13 @@ public class Engine {
 		if (ctn)
 			args.add(arg);
 
-		if (args.size() > 2) {
+		if (args.size() > 3) {
 			String[] cmdargs = new String[args.size() - 2];
 
-			for (i = 2; i < args.size(); i++)
-				cmdargs[i - 2] = args.get(i);
+			for (i = 3; i < args.size(); i++)
+				cmdargs[i - 3] = args.get(i);
 
-			engine = new Engine(CardType.fromString(args.get(0)), Target.fromString(args.get(1)), cmdargs);
+			engine = new Engine(CardType.fromString(args.get(0)), Declancheur.fromString(args.get(1)), Target.fromString(args.get(2)), cmdargs);
 		}
 		return engine;
 	}
@@ -116,7 +111,7 @@ public class Engine {
 	}
 
 	public String toString() {
-		String str = this.type + " " + this.qui;
+		String str = this.type + " " + this.decl + " " + this.qui;
 
 		for (String s : this.args)
 			str += " " + s;

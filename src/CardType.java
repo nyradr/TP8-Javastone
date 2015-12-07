@@ -6,8 +6,7 @@ import java.util.Random;
 public enum CardType {
 	INVOKE	(0), // code pour l'invocation d'une creature
 	BUFF	(1), // applique un buffer à une creature
-	DAMAGE	(2), // applique un domage à une creature
-	DECK	(3); // fait piocher dans le deck
+	DECK	(2); // fait piocher dans le deck
 
 	private int val;
 
@@ -21,7 +20,6 @@ public enum CardType {
 
 	public static CardType fromString(String s) {
 		int v = Integer.parseInt(s);
-		Random rand = new Random();
 
 		for (CardType t : CardType.values())
 			if (t.val == v)

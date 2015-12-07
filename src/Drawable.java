@@ -1,5 +1,3 @@
-import print.color.ColoredPrinter;
-
 /**
  * Type de base pour touts les elements dessinables
  */

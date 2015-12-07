@@ -3,15 +3,16 @@
  * Cibles possible pour un effet
  */
 public enum Target {
-	ALLPLAYER		(0), 	// cible tous les joueurs
-	PLAYER			(1), 	// cible le joueur courant
-	ADV				(2), 	// cible l'adversaire
-	CREA			(3),	// cible une creature
-	CREAPLAYER		(4),	// cible une creature du joueur
-	CREAADV			(5),	// cible une creature de l'adversaire
-	ALLCREA			(6),	// cible toutes les creatures
-	ALLCREAPLAYER	(7),	// cible toutes les creatures du joueur
-	ALLCREAADV		(8);	// cible toutes les creatures de l'adversaire
+	ALLPLAYER		(0),
+	PLAYER			(1),
+	ADV				(2),
+	ALLCREA			(3),
+	PLAYERCREA		(4),
+	ADVCREA			(5),
+	ALL				(6),
+	CHOSEALL		(7),
+	CHOSEPLAYER		(8),
+	CHOSEADV		(9);
 	
 	private int val;
 
