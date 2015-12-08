@@ -6,7 +6,8 @@ public class Creature extends Jouable implements IEngineTarget{
 	private int damage; 	// attaque
 
 	private boolean guardian; // indique s'il est un guardien
-
+	private boolean tired;
+	
 	private String name; // nom de la creature
 	private String fileName;
 
@@ -143,6 +144,11 @@ public class Creature extends Jouable implements IEngineTarget{
 
 	@Override
 	public void eng_deck(int nbr) throws Exception {
-		throw new Exception();
+		throw new Exception();	//non implementer
+	}
+
+	@Override
+	public void eng_renv(Creature c) throws Exception {
+		throw new Exception();	//non implementer
 	}
 }

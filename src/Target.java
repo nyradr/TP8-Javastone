@@ -3,16 +3,17 @@
  * Cibles possible pour un effet
  */
 public enum Target {
-	ALLPLAYER		(0),
-	PLAYER			(1),
-	ADV				(2),
-	ALLCREA			(3),
-	PLAYERCREA		(4),
-	ADVCREA			(5),
-	ALL				(6),
-	CHOSEALL		(7),
-	CHOSEPLAYER		(8),
-	CHOSEADV		(9);
+	ALLPLAYER		(0),	// cible tous les joueurs
+	PLAYER			(1),	// cible le joueur	
+	ADV				(2),	// cible l'adversaire
+	ALLCREA			(3),	// cible toutes les creatures
+	PLAYERCREA		(4),	// cible les creatures du joueur
+	ADVCREA			(5),	// cible les creatures de l'adversaire
+	ALL				(6),	// cible toutes les creature set les joueurs
+	CHOSEALL		(7),	// choisis une creature ou un joueur
+	CHOSEPLAYER		(8),	// chosis parmis les creatures du joueur
+	CHOSEADV		(9),	// choisis parmis les creatures de l'adversaire
+	CREAADVMAXDMG	(10);	// cible la creature adversaire avec le plus de pv
 	
 	private int val;
 

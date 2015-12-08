@@ -4,9 +4,10 @@ import java.util.Random;
  * Type possible d'une care
  */
 public enum CardType {
-	INVOKE	(0), // code pour l'invocation d'une creature
-	BUFF	(1), // applique un buffer à une creature
-	DECK	(2); // fait piocher dans le deck
+	INVOKE	(0),	// code pour l'invocation d'une creature
+	BUFF	(1),	// applique un buffer à une creature
+	DECK	(2),	// fait piocher dans le deck
+	RENVOIS	(3);	// renvois une carte dans son deck
 
 	private int val;
 

@@ -135,11 +135,6 @@ public class Joueur implements IEngineTarget{
 	public void newTurn() {
 		if (this.mana < this.manamax)
 			this.mana++;
-
-		for (int i = 1; i < this.plateau.size(); i++) {
-			if (this.plateau.get(i).isDead())
-				this.plateau.remove(i);
-		}
 		
 		if(!this.deck.isEmpty())
 			pioche();
@@ -177,6 +172,16 @@ public class Joueur implements IEngineTarget{
 		this.plateau.add(c);
 	}
 
+	/**
+	 * Supprime les creatures mortes
+	 */
+	public void clearDead(){
+		for (int i = 1; i < this.plateau.size(); i++) {
+			if (this.plateau.get(i).isDead())
+				this.plateau.remove(i);
+		}
+	}
+	
 	@Override
 	public void eng_invoke(String name) throws Exception {
 		invoke(new Creature(name));
@@ -191,5 +196,11 @@ public class Joueur implements IEngineTarget{
 	public void eng_deck(int nbr) throws Exception {
 		for(int i = 0; i < nbr; i++)
 			pioche();
+	}
+
+	@Override
+	public void eng_renv(Creature c) throws Exception {
+		//TODO
+		
 	}
 }

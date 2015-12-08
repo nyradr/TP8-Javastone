@@ -1,5 +1,5 @@
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class Jouable extends Drawable{
 
@@ -15,8 +15,19 @@ public abstract class Jouable extends Drawable{
 		return this.effets;
 	}
 	
+	/**
+	 * Retourne les effets correcpondant au declancheur
+	 * @param event
+	 * @return
+	 */
 	public List<Engine> getEffets(Declancheur event){
-		return this.effets.stream().filter(x -> x.getDecl() == event).collect(Collectors.toList());
+		List<Engine> eff = new ArrayList<Engine>();
+		
+		for(Engine e : effets)
+			if(e.getDecl() == event)
+				eff.add(e);
+		
+		return eff;
 	}
 	
 	public String getFileName(){

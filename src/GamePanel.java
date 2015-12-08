@@ -94,10 +94,14 @@ public class GamePanel {
 			case 1:
 				targets.add(choseCrea(getAdversaire(player), false));
 				break;
-
 			default:
 				break;
 			}
+			break;
+			
+		case CREAADVMAXDMG:
+			//TODO
+			
 			break;
 			
 		default:
@@ -137,6 +141,10 @@ public class GamePanel {
 						nbr = getAdversaire(player).getCrea().size();
 					
 					t.eng_deck(nbr);
+					break;
+					
+				case RENVOIS:
+					
 					break;
 				}
 			}
@@ -260,7 +268,7 @@ public class GamePanel {
 
 		do {
 			playerTurn(this.joueur1);
-			if (!this.joueur2.isDead())
+			if (!this.joueur2.isDead() || !this.joueur1.isDead())
 				playerTurn(this.joueur2);
 		} while (!this.joueur1.isDead() && !this.joueur2.isDead());
 	}
