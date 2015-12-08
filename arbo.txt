@@ -8,6 +8,7 @@ javastone
 			atk			(int+)
 			vie			(int+)
 			guardien 	(0/1)
+			eff			(str)
 	
 	- carte
 		- un fichier par create
@@ -15,7 +16,7 @@ javastone
 			
 			Nom			(str)
 			descr		(str)
-			eff			(str, metacode)
+			eff			(str)
 			mana		(int+)
 			max			(int+)
 			
@@ -30,24 +31,21 @@ javastone
 			
 			
 Effects:
-	TYPE	(int : INVOKE = 0, BUFF = 1, DAMAGE = 2, DECK = 3)
-	QUI		(int : 0(tous), 1(joueur), 2(adversaire))
-	ARGS:
-		INVOKE :
-			Nom creature	(str) (nom du fichier sans extension)
-		BUFF :
-			life			(int)
-			dmg				(int)
-			
-		DAMAGE:
-			dmg				(int)
-			
-		DECK:
-			nbr				(int)
-			
-	Ex:
-		Vous piocher 2 carte : 3 1 2
-		Invoque Creatur : 0 1 Creatur
-		Invoque Castor Garou et pioche une carte : 0 1 Castor_Garou; 3 1 1
+	Les effects sont coder sur une ligne séparer par des espaces
+		TYPE DECLANCHEUR TARGET arguments eventuels
+		
+		avec :
+			TYPE:
+				0	pour invoquer (ou silencer) une créature
+				1	pour appliquer un buff
+				2	pour piocher une carte
+				3	pour renvoyer une carte dans le deck
+				
+			DECLANCHEUR:
+				1	l'evenement se déclanche lors d'une modification d'etat de la creature cible
+				2	lors du jeu de la carte
+				
+			TARGET:
+				
 			
 			

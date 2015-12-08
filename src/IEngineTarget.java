@@ -5,7 +5,7 @@ public interface IEngineTarget {
 	 * @param name nom de la carte à invoquer
 	 * @throws Exception
 	 */
-	public void eng_invoke(String name) throws Exception;
+	public Creature eng_invoke(String name, String carteFileName) throws Exception;
 	
 	/**
 	 * Applique un buff
@@ -28,5 +28,5 @@ public interface IEngineTarget {
 	 * @param c creature à renvoyer
 	 * @throws Exception
 	 */
-	public void eng_renv(Creature c) throws Exception;
+	public String eng_renv() throws Exception;
 }

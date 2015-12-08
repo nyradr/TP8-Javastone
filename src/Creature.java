@@ -8,8 +8,7 @@ public class Creature extends Jouable implements IEngineTarget{
 	private boolean guardian; // indique s'il est un guardien
 	private boolean tired;
 	
-	private String name; // nom de la creature
-	private String fileName;
+	private String carteFileName;
 
 	/**
 	 * Contructeur basique
@@ -40,8 +39,9 @@ public class Creature extends Jouable implements IEngineTarget{
 	 * @param nom
 	 *            nom de la creature
 	 */
-	public Creature(String nom) throws Exception {
+	public Creature(String nom, String parentCarte) throws Exception {
 		loadFromFile(nom);
+		this.carteFileName = parentCarte;
 	}
 	
 	private void loadFromFile(String nom) throws Exception{
@@ -132,9 +132,10 @@ public class Creature extends Jouable implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_invoke(String name) throws Exception {
+	public Creature eng_invoke(String name, String carteFileName) throws Exception {
 		if(name.length() == 0)
 			loadFromFile(name);
+		return null;
 	}
 
 	@Override
@@ -148,7 +149,8 @@ public class Creature extends Jouable implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_renv(Creature c) throws Exception {
-		throw new Exception();	//non implementer
+	public String eng_renv() throws Exception {
+		this.life = 0;
+		return this.carteFileName;
 	}
 }

@@ -1,8 +1,7 @@
 
 public enum Declancheur {
-	PLAY	(0),	//se déclanche quand la carte est jouer
 	MODIF	(1),	//se déclanche lors d'une modification
-	DEGATS	(2);	//se déclanche lors d'un degats reçu
+	PLAY	(2);	//se déclanche quand la carte est jouer
 	
 	private int val;
 

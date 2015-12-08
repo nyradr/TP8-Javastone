@@ -183,8 +183,10 @@ public class Joueur implements IEngineTarget{
 	}
 	
 	@Override
-	public void eng_invoke(String name) throws Exception {
-		invoke(new Creature(name));
+	public Creature eng_invoke(String name, String carteFileName) throws Exception {
+		Creature c = new Creature(name, carteFileName);
+		invoke(c);
+		return c;
 	}
 
 	@Override
@@ -199,8 +201,7 @@ public class Joueur implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_renv(Creature c) throws Exception {
-		//TODO
-		
+	public String eng_renv() throws Exception {
+		throw new Exception();	//non implémenter
 	}
 }

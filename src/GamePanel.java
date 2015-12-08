@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.ws.message.stream.StreamAttachment;
-
 public class GamePanel {
 
 	private Joueur joueur1;
@@ -122,12 +120,16 @@ public class GamePanel {
 	 */
 	private void interpret(Jouable c, Joueur player, Declancheur event) throws Exception {
 		int nbr = 0;
+		Creature crea;
 		
 		for (Engine e : c.getEffets(event)) {
 			for(IEngineTarget t : gettargets(player, e.getTarget())){
 				switch (e.getType()) {
 				case INVOKE:
-					t.eng_invoke(e.getArgs()[0]);
+					crea = t.eng_invoke(e.getArgs()[0], c.fileName);
+					if(crea != null)
+						interpret(c, player, Declancheur.PLAY);
+					
 					break;
 					
 				case BUFF:
@@ -144,7 +146,8 @@ public class GamePanel {
 					break;
 					
 				case RENVOIS:
-					
+					getAdversaire(player).getDeck().addCard(new Carte(t.eng_renv()));
+					getAdversaire(player).getDeck().generateAleat();
 					break;
 				}
 			}
