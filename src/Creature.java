@@ -47,7 +47,7 @@ public class Creature extends Jouable implements IEngineTarget{
 	}
 	
 	private void loadFromFile(String nom) throws Exception{
-		String[] lines = FileReader.loadFile(FileReader.FOLD_CREA, nom);
+		String[] lines = FileManager.loadFile(FileManager.FOLD_CREA, nom);
 
 		this.fileName = nom;
 		this.name = lines[0];

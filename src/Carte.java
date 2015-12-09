@@ -38,7 +38,7 @@ public class Carte extends Jouable {
 	 *            nom de la carte
 	 */
 	public Carte(String name) throws Exception {
-		String[] lines = FileReader.loadFile(FileReader.FOLD_CART, name);
+		String[] lines = FileManager.loadFile(FileManager.FOLD_CART, name);
 		
 		this.fileName = name;
 		this.name = lines[0];

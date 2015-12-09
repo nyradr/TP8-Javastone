@@ -25,7 +25,7 @@ public class Joueur implements IEngineTarget{
 	public Joueur(String name) {
 		this.name = name;
 
-		this.deck = new Deck(30);
+		this.deck = new Deck(10);
 		this.main = new ArrayList<Carte>();
 		this.plateau = new ArrayList<Creature>();
 

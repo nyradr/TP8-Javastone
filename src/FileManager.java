@@ -1,17 +1,22 @@
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Lecteur de fichier
+ * Lecteur et ecriture dand des fichiers
  *
  */
-public class FileReader {
+public class FileManager {
 	public static final String FOLD_CREA = "crea"; // dossier pour les creatures
 	public static final String FOLD_CART = "carte"; // dossier pour les cartes
 	public static final String FOLD_DECK = "deck"; // dossier pour les decks
@@ -83,5 +88,20 @@ public class FileReader {
 		}
 
 		return files.toArray(new String[0]);
+	}
+	
+	public static void writeInFile(String folder, String name, String[] lines) throws Exception{
+		File file = new File(folder + File.separator + name + "." + folder);
+		if(!file.exists())
+			file.createNewFile();
+		
+		
+		FileOutputStream fos = new FileOutputStream(file);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(bos));
+		
+		for(String s : lines)
+			bw.write(s + "\n");
+		bw.close();
 	}
 }

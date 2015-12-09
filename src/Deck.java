@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Représente un deck de cartes Un deck est une pile de carte
@@ -32,8 +33,26 @@ public class Deck {
 	 *            fichier de deck à charger
 	 */
 	public Deck(int n, String file) throws Exception {
-		for (String name : FileReader.loadFile(FileReader.FOLD_DECK, file))
+		this.nmax = n;
+		
+		this.loadFile(file);
+	}
+	
+	public void loadFile(String file) throws Exception{
+		this.deck = new ArrayList<Carte>(this.nmax);
+		
+		for (String name : FileManager.loadFile(FileManager.FOLD_DECK, file)){
 			this.addCard(new Carte(name));
+		}
+	}
+	
+	public void save(String name) throws Exception{
+		List<String> cartesName = new ArrayList<String>();
+		
+		for(Carte c : this.deck)
+			cartesName.add(c.getFileName());
+		
+		FileManager.writeInFile(FileManager.FOLD_DECK, name, cartesName.toArray(new String[0]));
 	}
 
 	/**

@@ -261,15 +261,18 @@ public class GamePanel {
 	 */
 	private void initPlayer(Joueur player){
 		System.out.println("Initialisation de " + player.getName());
+		boolean ctn = true;
 		
-		if (draw.menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
-			System.out.println("depuis un deck");
-			
-		}else{
-			System.out.println("manuelle");
-			draw.buildDeck(player.getDeck());
-		}
-		
+		do{
+			if (draw.menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
+				System.out.println("depuis un deck");
+				ctn = draw.loadDeck(player.getDeck());
+			}else{
+				System.out.println("manuelle");
+				draw.buildDeck(player.getDeck());
+			}
+		}while(!ctn);
+		System.out.println("ND " + player.getDeck().size());
 		player.getDeck().generateAleat();
 		for(int i = 0; i < 2; i++)
 			player.pioche();

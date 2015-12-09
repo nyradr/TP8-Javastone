@@ -149,9 +149,12 @@ public class DrawingPanel {
 
 	public void buildDeck(Deck deck) {
 		printer.println("Contruction d'un deck:\n");
-		String[] nomcarteDispo = FileReader.listFiles(FileReader.FOLD_CART);
+		String[] nomcarteDispo = FileManager.listFiles(FileManager.FOLD_CART);
 		List<Carte> cartesDispo = new ArrayList<Carte>();
 
+		printer.println("Nom du deck (Attention par pur fleme du developpeur si un deck porte déja ce nom il seras remplacer par ce nouveau deck)");
+		String nomDeck = scan.nextLine();		
+		
 		for (int i = 0; i < nomcarteDispo.length; i++) {
 			try {
 				Carte c = new Carte(nomcarteDispo[i]);
@@ -160,7 +163,7 @@ public class DrawingPanel {
 				printer.println("Erreur : impossible de charger la carte");
 			}
 		}
-
+		
 		for (int i = 0; i < deck.getMax(); i++) {
 			int choix = menu("Il vous reste " + (deck.getMax() - deck.size()) + " cartes à placer", cartesDispo.toArray(new Carte[0]));
 			try {
@@ -169,18 +172,27 @@ public class DrawingPanel {
 				e.printStackTrace();
 			}
 		}
+		
+		try{
+			deck.save(nomDeck);
+		}catch(Exception e){
+			printer.println("Une erreur c'est produite lors de la creation du fichier");
+		}
 	}
 
-	public void loadDeck(Deck deck) {
+	public boolean loadDeck(Deck deck) {
 		printer.println("Chargement d'un deck existant :\n");
 
 		try {
-			String[] deckDispo = FileReader.listFiles(FileReader.FOLD_DECK);
-
-			deck = new Deck(deck.getMax(), deckDispo[menu("Decks disponibles", deckDispo)]);
+			String[] deckDispo = FileManager.listFiles(FileManager.FOLD_DECK);
+			deck.loadFile(deckDispo[menu("Decks disponibles", deckDispo)]);
+			return true;
 		} catch (Exception e) {
 			printer.println("Erreur : Impossible de charger le deck");
+			return false;
 		}
+		
+		
 	}
 
 	/**
