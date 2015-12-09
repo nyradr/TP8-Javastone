@@ -28,6 +28,13 @@ public class GamePanel {
 		return joueur1;
 	}
 	
+	
+	/**
+	 * Chosis une creature parmis celles du joueur
+	 * @param player joueur
+	 * @param sp true pour éliminer le joueur du choix (impossible de cibler le joueur)
+	 * @return
+	 */
 	private Creature choseCrea(Joueur player, boolean sp){
 		List<Creature> creas = player.getPlateau();
 		if(sp)
@@ -40,7 +47,13 @@ public class GamePanel {
 		else
 			return player.getPlateau().get(item);
 	}
-
+	
+	/**
+	 * Obtient la liste des cibles potentiels
+	 * @param player
+	 * @param t
+	 * @return
+	 */
 	private List<IEngineTarget> gettargets(Joueur player, Target t){
 		List<IEngineTarget> targets = new ArrayList<IEngineTarget>();
 		
@@ -180,25 +193,27 @@ public class GamePanel {
 	 * 
 	 * @param player
 	 */
-	private boolean attaque(Joueur player) {
-		if(player.getPlateau().size() <= 1)
-			return false;
+	private void attaque(Joueur player) {
+		if(player.getCrea().isEmpty())
+			return;
 		
 		Creature attaquant;
 		Creature cible;
 
-		do {
-			attaquant = player.getPlateau()
-					.get(draw.menu("Attquant", (Drawable[]) player.getPlateau().subList(1, player.getPlateau().size() -1).toArray(new Creature[0])));
-			cible = getAdversaire(player).getPlateau().get(
-					draw.menu("defenseur", (Drawable[]) getAdversaire(player).getPlateau().toArray(new Creature[0])));
-		} while (attaquant == player.getPlayerInstance()
-				&& !(cible == getAdversaire(player).getPlayerInstance() && getAdversaire(player).asGuardien()));
-
-		cible.takeDamage(attaquant.getDamage());
-		attaquant.takeDamage(cible.getDamage());
+		attaquant = choseCrea(player, false);
+		cible = choseCrea(getAdversaire(player), true);
 		
-		return true;
+		if(!attaquant.getFatigue() && !(getAdversaire(player).asGuardien() && !cible.isGuardian())){
+
+			cible.takeDamage(attaquant.getDamage());
+			attaquant.takeDamage(cible.getDamage());
+			
+			if(attaquant.isDead())
+				player.clearDead();
+			
+			if(cible.isDead())
+				player.clearDead();
+		}
 	}
 
 	/**

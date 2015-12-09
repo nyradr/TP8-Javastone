@@ -46,6 +46,30 @@ Effects:
 				2	lors du jeu de la carte
 				
 			TARGET:
+				0	(cf Enum Target)
+				1
+				2
+				3
+				4
+				5
+				6
+				7
+				8
+				9
+				10
+			
+			Arguments:
+				Invocation :
+					- fichier de la creature à invoquer, silencer ou transformer
+					
+				Buff:
+					- pv
+					- dmg
 				
+				Piocher:
+					- Nombre de carte à piocher, si 0 il d'agit du nombre de creature de l'adversaire
+					
+				Renvois:
+					- Aucun argument
 			
 			

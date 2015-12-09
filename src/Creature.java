@@ -31,6 +31,7 @@ public class Creature extends Jouable implements IEngineTarget{
 
 		this.guardian = guardian;
 		this.effets = Engine.extractEffects(effets);
+		this.tired = true;
 	}
 
 	/**
@@ -42,6 +43,7 @@ public class Creature extends Jouable implements IEngineTarget{
 	public Creature(String nom, String parentCarte) throws Exception {
 		loadFromFile(nom);
 		this.carteFileName = parentCarte;
+		this.tired = true;
 	}
 	
 	private void loadFromFile(String nom) throws Exception{
@@ -78,7 +80,15 @@ public class Creature extends Jouable implements IEngineTarget{
 	public int getDamage() {
 		return this.damage;
 	}
-
+	
+	public boolean getFatigue(){
+		return this.tired;
+	}
+	
+	public void setFatigue(boolean f){
+		this.tired = f;
+	}
+	
 	/**
 	 * indique si la creature est morte
 	 * 
@@ -128,7 +138,9 @@ public class Creature extends Jouable implements IEngineTarget{
 	@Override
 	public void draw(DrawingPanel printer) {
 		printer.getPrinter().print(this.getName());
-		printer.getPrinter().print(this.getDamage() + "/" + this.getLife());
+		printer.getPrinter().print(" " + this.getDamage() + "/" + this.getLife());
+		
+		//TODO Affichage de la fatigue
 	}
 
 	@Override
