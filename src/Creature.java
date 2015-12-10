@@ -87,10 +87,18 @@ public class Creature extends Jouable implements IEngineTarget{
 		return this.damage;
 	}
 	
+	/**
+	 * Indique si la creature est fatiguer
+	 * @return
+	 */
 	public boolean getFatigue(){
 		return this.tired;
 	}
 	
+	/**
+	 * Definis la fatigue de la creature
+	 * @param f
+	 */
 	public void setFatigue(boolean f){
 		this.tired = f;
 	}

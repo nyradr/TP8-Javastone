@@ -56,6 +56,7 @@ public class GamePanel {
 	 */
 	private List<IEngineTarget> gettargets(Joueur player, Target t){
 		List<IEngineTarget> targets = new ArrayList<IEngineTarget>();
+		Creature maxdmg = getAdversaire(player).getPlayerInstance();
 		
 		switch (t) {
 		case ALLPLAYER:
@@ -111,8 +112,10 @@ public class GamePanel {
 			break;
 			
 		case CREAADVMAXDMG:
-			//TODO
-			
+			for(Creature c : getAdversaire(player).getCrea())
+				if(c.getDamage() > maxdmg.getDamage())
+					maxdmg = c;
+			targets.add(maxdmg);
 			break;
 			
 		default:
@@ -200,8 +203,8 @@ public class GamePanel {
 		Creature attaquant;
 		Creature cible;
 
-		attaquant = choseCrea(player, false);
-		cible = choseCrea(getAdversaire(player), true);
+		attaquant = choseCrea(player, true);
+		cible = choseCrea(getAdversaire(player), false);
 		
 		if(!attaquant.getFatigue() && !(getAdversaire(player).asGuardien() && !cible.isGuardian())){
 
@@ -228,16 +231,16 @@ public class GamePanel {
 
 		draw.getPrinter().println(player.getName() + " debut de votre tour...");
 
-		// Adversaire
-		draw.getPrinter().println("\nAdversaire:");
-		draw.draw(getAdversaire(player), true);
-
-		// Joueur:
-		draw.getPrinter().println("\nVous:");
-		draw.draw(player, false);
-
 		boolean end = false;
 			while(!end){
+			// Adversaire
+			draw.getPrinter().println("\nAdversaire:");
+			draw.draw(getAdversaire(player), true);
+
+			// Joueur:
+			draw.getPrinter().println("\nVous:");
+			draw.draw(player, false);	
+				
 			switch (draw.menu("Que voullez vous faire",
 					new String[] { "Jouer une carte", "Attaquer avec une creature", "Fin du tour" })) {
 			case 0:
