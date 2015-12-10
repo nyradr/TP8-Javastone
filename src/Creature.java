@@ -59,6 +59,7 @@ public class Creature extends Jouable implements IEngineTarget{
 		this.guardian = lines[3].charAt(0) == '1';
 		try{
 			this.effets = Engine.extractEffects(lines[4]);
+			this.descr = lines[5];
 		}catch(Exception e){
 			this.effets = new ArrayList<Engine>();
 		}

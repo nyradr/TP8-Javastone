@@ -13,7 +13,8 @@ public enum Target {
 	CHOSEALL		(7),	// choisis une creature ou un joueur
 	CHOSEPLAYER		(8),	// chosis parmis les creatures du joueur
 	CHOSEADV		(9),	// choisis parmis les creatures de l'adversaire
-	CREAADVMAXDMG	(10);	// cible la creature adversaire avec le plus de pv
+	CREAADVMAXDMG	(10),	// cible la creature adversaire avec le plus de pv
+	SELF			(11);	// cible la creature à l'origine de l'effet
 	
 	private int val;
 

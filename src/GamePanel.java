@@ -139,7 +139,11 @@ public class GamePanel {
 		Creature crea;
 		
 		for (Engine e : c.getEffets(event)) {
-			for(IEngineTarget t : gettargets(player, e.getTarget())){
+			List<IEngineTarget> cibles = gettargets(player, e.getTarget());
+			if(e.getTarget() == Target.SELF)
+				cibles.add((IEngineTarget) c);
+			
+			for(IEngineTarget t : cibles){
 				switch (e.getType()) {
 				case INVOKE:
 					crea = t.eng_invoke(e.getArgs()[0], c.fileName);
@@ -149,8 +153,20 @@ public class GamePanel {
 					break;
 					
 				case BUFF:
-					t.eng_buff(Integer.parseInt(e.getArgs()[0])
-							,Integer.parseInt(e.getArgs()[1]));
+					try{
+						nbr = Integer.parseInt(e.getArgs()[2]);
+						if(nbr == 0)
+							nbr = player.getCrea().size();
+						else if(nbr == 1)
+							nbr = getAdversaire(player).getCrea().size();
+					}catch (Exception e2) {
+						nbr = 1;
+					}
+					
+					for(int i = 0; i < nbr; i++){
+						t.eng_buff(Integer.parseInt(e.getArgs()[0])
+								,Integer.parseInt(e.getArgs()[1]));
+					}
 					break;
 					
 				case DECK:

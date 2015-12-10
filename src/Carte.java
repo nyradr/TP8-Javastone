@@ -4,8 +4,6 @@
 public class Carte extends Jouable {
 	private CardType type; // type de la carte
 	private int manaCost; // cout en mana
-	
-	private String descr; // description utilisateur de la carte
 
 	private int maxelem; // nombre max d'occurences de la carte dans le deck
 
