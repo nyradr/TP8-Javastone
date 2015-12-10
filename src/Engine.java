@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.zip.CheckedOutputStream;
 
 /**
  * Gestionaire d'effets
@@ -43,6 +45,35 @@ public class Engine {
 	public String[] getArgs() {
 		return args;
 	}
+	
+	/**
+	 * Choisis un effet dans le cas de plusieurs effet possible
+	 * @param str
+	 * @return
+	 */
+	private static String choose(String str){
+		List<String> possibles = new ArrayList<String>();
+		String poss = "";
+		
+		for(int i = 0; i < str.length(); i++){
+			if(str.charAt(i) == '|'){
+				if(poss != "")
+					possibles.add(poss);
+				poss = "";
+			}else
+				poss += str.charAt(i);
+		}
+		
+		if(poss != "")
+			possibles.add(poss);
+		
+		if(possibles.size() > 0){
+			Random rand = new Random();
+			return possibles.get(rand.nextInt(possibles.size()));
+		}
+		
+		return null;
+	}
 
 	/**
 	 * Extrait un effet depuis une String
@@ -78,7 +109,7 @@ public class Engine {
 			String[] cmdargs = new String[args.size() - 2];
 
 			for (i = 3; i < args.size(); i++)
-				cmdargs[i - 3] = args.get(i);
+				cmdargs[i - 3] = choose(args.get(i));
 
 			engine = new Engine(CardType.fromString(args.get(0)), Declancheur.fromString(args.get(1)), Target.fromString(args.get(2)), cmdargs);
 		}

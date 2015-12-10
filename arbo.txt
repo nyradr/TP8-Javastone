@@ -31,7 +31,7 @@ javastone
 			
 			
 Effects:
-	Les effects sont coder sur une ligne séparer par des espaces
+	Les effects sont coder sur une ligne séparer par des espaces. Si plusieurs effets le séparateur ';' seras utiliser pour séparer les effets
 		TYPE DECLANCHEUR TARGET arguments eventuels
 		
 		avec :
@@ -46,9 +46,9 @@ Effects:
 				2	lors du jeu de la carte
 				
 			TARGET:
-				0	(cf Enum Target)
-				1
-				2
+				0	Cible tout les joueurs
+				1	Cible le joueur
+				2	Cible l'adversaire
 				3
 				4
 				5

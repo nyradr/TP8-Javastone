@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Représente une créature DONE
  */
@@ -55,7 +57,11 @@ public class Creature extends Jouable implements IEngineTarget{
 		this.life = Integer.parseInt(lines[2]);
 
 		this.guardian = lines[3].charAt(0) == '1';
-		this.effets = Engine.extractEffects(lines[4]);
+		try{
+			this.effets = Engine.extractEffects(lines[4]);
+		}catch(Exception e){
+			this.effets = new ArrayList<Engine>();
+		}
 	}
 
 	/**

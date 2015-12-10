@@ -141,7 +141,7 @@ public class GamePanel {
 				case INVOKE:
 					crea = t.eng_invoke(e.getArgs()[0], c.fileName);
 					if(crea != null)
-						interpret(c, player, Declancheur.PLAY);
+						interpret(crea, player, Declancheur.PLAY);
 					
 					break;
 					
@@ -210,6 +210,8 @@ public class GamePanel {
 			
 			if(attaquant.isDead())
 				player.clearDead();
+			else
+				attaquant.setFatigue(true);
 			
 			if(cible.isDead())
 				player.clearDead();

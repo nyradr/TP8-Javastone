@@ -136,6 +136,9 @@ public class Joueur implements IEngineTarget{
 		if (this.mana < this.manamax)
 			this.mana++;
 		
+		for(Creature c : this.getCrea())
+			c.setFatigue(false);
+		
 		if(!this.deck.isEmpty())
 			pioche();
 	}
