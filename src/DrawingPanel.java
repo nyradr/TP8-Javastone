@@ -167,7 +167,12 @@ public class DrawingPanel {
 		for (int i = 0; i < deck.getMax(); i++) {
 			int choix = menu("Il vous reste " + (deck.getMax() - deck.size()) + " cartes à placer", cartesDispo.toArray(new Carte[0]));
 			try {
-				deck.addCard(new Carte(cartesDispo.get(choix).getFileName()));
+				Carte c = new Carte(cartesDispo.get(choix).getFileName());
+				
+				if(c.getMax() > deck.occurInDeck(c))
+					deck.addCard(c);
+				else
+					printer.println("Le nombre maximum de cette carte est deja atteint");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

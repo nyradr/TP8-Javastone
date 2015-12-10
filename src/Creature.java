@@ -166,8 +166,9 @@ public class Creature extends Jouable implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_buff(int pv, int dmg) throws Exception {
+	public boolean eng_buff(int pv, int dmg) throws Exception {
 		buffCreature(pv, dmg);
+		return pv < 0;
 	}
 
 	@Override

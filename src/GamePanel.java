@@ -166,6 +166,7 @@ public class GamePanel {
 					for(int i = 0; i < nbr; i++){
 						t.eng_buff(Integer.parseInt(e.getArgs()[0])
 								,Integer.parseInt(e.getArgs()[1]));
+						interpret((Jouable) t, player, Declancheur.MODIF);
 					}
 					break;
 					
@@ -226,6 +227,15 @@ public class GamePanel {
 
 			cible.takeDamage(attaquant.getDamage());
 			attaquant.takeDamage(cible.getDamage());
+			
+			try{
+				if(attaquant.getDamage() > 0)
+					interpret(cible, player, Declancheur.MODIF);
+				if(cible.getDamage() > 0)
+					interpret(attaquant, player, Declancheur.MODIF);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			
 			if(attaquant.isDead())
 				player.clearDead();
