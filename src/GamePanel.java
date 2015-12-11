@@ -166,7 +166,8 @@ public class GamePanel {
 					for(int i = 0; i < nbr; i++){
 						t.eng_buff(Integer.parseInt(e.getArgs()[0])
 								,Integer.parseInt(e.getArgs()[1]));
-						interpret((Jouable) t, player, Declancheur.MODIF);
+						if(e.getTarget() != Target.SELF)
+							interpret((Jouable) t, player, Declancheur.MODIF);
 					}
 					break;
 					
@@ -184,6 +185,8 @@ public class GamePanel {
 					break;
 				}
 			}
+			player.clearDead();
+			getAdversaire(player).clearDead();
 		}
 	}
 
