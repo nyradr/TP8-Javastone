@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+import print.color.Ansi.Attribute;
+import print.color.Ansi.BColor;
+import print.color.Ansi.FColor;
+
 /**
  * Représente une créature DONE
  */
@@ -152,10 +156,14 @@ public class Creature extends Jouable implements IEngineTarget{
 
 	@Override
 	public void draw(DrawingPanel printer) {
+		
 		printer.getPrinter().print(this.getName());
 		printer.getPrinter().print(" " + this.getDamage() + "/" + this.getLife());
+		if(this.descr != null)
+			printer.getPrinter().print(" " + this.descr);
 		
-		//TODO Affichage de la fatigue
+		if(this.tired)
+			printer.getPrinter().print(" est fatiguer", Attribute.BOLD, FColor.YELLOW, BColor.BLACK);
 	}
 
 	@Override

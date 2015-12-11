@@ -1,3 +1,7 @@
+import print.color.Ansi.Attribute;
+import print.color.Ansi.BColor;
+import print.color.Ansi.FColor;
+
 /**
  * Ajout du système de fichier
  */
@@ -75,7 +79,7 @@ public class Carte extends Jouable {
 
 	@Override
 	public void draw(DrawingPanel printer) {
-		printer.getPrinter().print("[" + this.getMana() + "]");
+		printer.getPrinter().print("[" + this.getMana() + "]", Attribute.BOLD, FColor.BLUE, BColor.BLACK);
 		printer.getPrinter().print(this.getName() + " : " + this.getDescr());
 	}
 }

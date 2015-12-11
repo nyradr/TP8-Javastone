@@ -206,10 +206,10 @@ public class GamePanel {
 				interpret(player.getMain().get(cartejouer), player, Declancheur.PLAY);
 				player.playCard(cj);
 			}catch(Exception e){
-				draw.getPrinter().println("Erreur : Impossible d'appliquer l'effet de la carte, elle n'est donc pas jouer");
+				draw.error("Erreur : Impossible d'appliquer l'effet de la carte, elle n'est donc pas jouer");
 			}
 		} else
-			draw.draw("Pas assez de mana");
+			draw.error("Pas assez de mana");
 	}
 
 	/**
@@ -248,6 +248,12 @@ public class GamePanel {
 			
 			if(cible.isDead())
 				getAdversaire(player).clearDead();
+		}else{
+			if(attaquant.getFatigue())
+				draw.error("Impossible d'attaquer avec une creature fatiguée");
+			
+			if(!(getAdversaire(player).asGuardien() && !cible.isGuardian()))
+				draw.error("Impossible d'attaquer cette cible en présence d'un gardien");
 		}
 	}
 
@@ -295,15 +301,15 @@ public class GamePanel {
 	 * @param player
 	 */
 	private void initPlayer(Joueur player){
-		System.out.println("Initialisation de " + player.getName());
+		draw.draw("Initialisation de " + player.getName());
 		boolean ctn = true;
 		
 		do{
 			if (draw.menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
-				System.out.println("depuis un deck");
+				draw.draw("depuis un deck");
 				ctn = draw.loadDeck(player.getDeck());
 			}else{
-				System.out.println("manuelle");
+				draw.draw("manuelle");
 				draw.buildDeck(player.getDeck());
 			}
 		}while(!ctn);
@@ -312,7 +318,7 @@ public class GamePanel {
 		for(int i = 0; i < 2; i++)
 			player.pioche();
 		
-		
+		player.getPlayerInstance().setFatigue(false);
 	}
 
 	/**
@@ -324,7 +330,7 @@ public class GamePanel {
 
 		do {
 			playerTurn(this.joueur1);
-			if (!this.joueur2.isDead() || !this.joueur1.isDead())
+			if (!this.joueur2.isDead() && !this.joueur1.isDead())
 				playerTurn(this.joueur2);
 		} while (!this.joueur1.isDead() && !this.joueur2.isDead());
 	}
