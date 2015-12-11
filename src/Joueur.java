@@ -193,8 +193,9 @@ public class Joueur implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_buff(int pv, int dmg) throws Exception {
-		getPlayerInstance().buffCreature(pv, dmg);		
+	public boolean eng_buff(int pv, int dmg) throws Exception {
+		getPlayerInstance().buffCreature(pv, dmg);
+		return pv < 0;
 	}
 
 	@Override

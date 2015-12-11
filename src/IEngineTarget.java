@@ -11,9 +11,10 @@ public interface IEngineTarget {
 	 * Applique un buff
 	 * @param pv buff en pv, ou dommage si negatif
 	 * @param dmg buff de dommages
+	 * @return true si un degat à été infliger
 	 * @throws Exception
 	 */
-	public void eng_buff(int pv, int dmg) throws Exception;
+	public boolean eng_buff(int pv, int dmg) throws Exception;
 	
 	/**
 	 * Pioche une carte dans le deck<br>

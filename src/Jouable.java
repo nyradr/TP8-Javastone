@@ -5,6 +5,7 @@ public abstract class Jouable extends Drawable{
 
 	protected String name;
 	protected List<Engine> effets;
+	protected String descr;
 	protected String fileName;
 	
 	public String getName(){

@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+import print.color.Ansi.Attribute;
+import print.color.Ansi.BColor;
+import print.color.Ansi.FColor;
+
 /**
  * Représente une créature DONE
  */
@@ -59,6 +63,7 @@ public class Creature extends Jouable implements IEngineTarget{
 		this.guardian = lines[3].charAt(0) == '1';
 		try{
 			this.effets = Engine.extractEffects(lines[4]);
+			this.descr = lines[5];
 		}catch(Exception e){
 			this.effets = new ArrayList<Engine>();
 		}
@@ -151,10 +156,14 @@ public class Creature extends Jouable implements IEngineTarget{
 
 	@Override
 	public void draw(DrawingPanel printer) {
+		
 		printer.getPrinter().print(this.getName());
 		printer.getPrinter().print(" " + this.getDamage() + "/" + this.getLife());
+		if(this.descr != null)
+			printer.getPrinter().print(" " + this.descr);
 		
-		//TODO Affichage de la fatigue
+		if(this.tired)
+			printer.getPrinter().print(" est fatiguer", Attribute.BOLD, FColor.YELLOW, BColor.BLACK);
 	}
 
 	@Override
@@ -165,8 +174,9 @@ public class Creature extends Jouable implements IEngineTarget{
 	}
 
 	@Override
-	public void eng_buff(int pv, int dmg) throws Exception {
+	public boolean eng_buff(int pv, int dmg) throws Exception {
 		buffCreature(pv, dmg);
+		return pv < 0;
 	}
 
 	@Override
@@ -176,7 +186,10 @@ public class Creature extends Jouable implements IEngineTarget{
 
 	@Override
 	public String eng_renv() throws Exception {
-		this.life = 0;
+		if(this.carteFileName == null)
+			throw new Exception();
+		else
+			this.life = 0;
 		return this.carteFileName;
 	}
 }

@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.w3c.dom.Attr;
+
+import print.color.Ansi.Attribute;
 import print.color.Ansi.BColor;
 import print.color.Ansi.FColor;
 import print.color.ColoredPrinter;
@@ -37,7 +40,7 @@ public class DrawingPanel {
 		if (i < 10)
 			s += " ";
 		s += "- ";
-		printer.print(s);
+		printer.print("\t" + s);
 	}
 
 	/**
@@ -96,7 +99,7 @@ public class DrawingPanel {
 			if (val < 0 || val >= max)
 				throw new Exception();
 		} catch (Exception e) {
-			printer.println("Input error");
+			this.error("Entrée invalide");
 			val = -1;
 		}
 
@@ -152,7 +155,7 @@ public class DrawingPanel {
 		String[] nomcarteDispo = FileManager.listFiles(FileManager.FOLD_CART);
 		List<Carte> cartesDispo = new ArrayList<Carte>();
 
-		printer.println("Nom du deck (Attention par pur fleme du developpeur si un deck porte déja ce nom il seras remplacer par ce nouveau deck)");
+		printer.println("Nom du deck (Attention par pure fleme du developpeur si un deck porte déja ce nom il seras remplacer par ce nouveau deck)");
 		String nomDeck = scan.nextLine();		
 		
 		for (int i = 0; i < nomcarteDispo.length; i++) {
@@ -167,7 +170,12 @@ public class DrawingPanel {
 		for (int i = 0; i < deck.getMax(); i++) {
 			int choix = menu("Il vous reste " + (deck.getMax() - deck.size()) + " cartes à placer", cartesDispo.toArray(new Carte[0]));
 			try {
-				deck.addCard(new Carte(cartesDispo.get(choix).getFileName()));
+				Carte c = new Carte(cartesDispo.get(choix).getFileName());
+				
+				if(c.getMax() > deck.occurInDeck(c))
+					deck.addCard(c);
+				else
+					printer.println("Le nombre maximum de cette carte est deja atteint");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -195,6 +203,11 @@ public class DrawingPanel {
 		
 	}
 
+	public void error(String mess){
+		printer.print(mess, Attribute.BOLD, FColor.RED, BColor.BLACK);
+		newLine();
+	}
+	
 	/**
 	 * Dessine la barre de mana
 	 * 
@@ -208,11 +221,13 @@ public class DrawingPanel {
 
 		for (int i = 0; i < max; i++) {
 			if (i < mana)
-				printer.print("X");
+				printer.print("X", Attribute.BOLD, FColor.BLUE, BColor.BLACK);
 			else
 				printer.print("_");
 		}
-		printer.println("]");
+		printer.print("] ");
+		printer.print(mana, Attribute.BOLD, FColor.BLUE, BColor.BLACK);
+		newLine();
 	}
 
 	/**
@@ -231,15 +246,21 @@ public class DrawingPanel {
 
 		printer.println("Main :");
 		if (!adv) {
-			for (Carte c : player.getMain())
-				printer.println("\t" + c.toString());
+			for (Carte c : player.getMain()){
+				printer.print("\t");
+				c.draw(this);
+				printer.print("\n");
+			}
 		} else {
 			printer.println(player.getMain().size() + " carte(s) dans la main");
 		}
 
 		printer.println("Terrain :");
-		for (int i = 1; i < player.getPlateau().size(); i++)
-			printer.println("\t" + player.getPlateau().get(i).toString());
+		for(Creature c : player.getCrea()){
+			printer.print("\t");
+			c.draw(this);
+			printer.print("\n");
+		}
 	}
 
 	/**

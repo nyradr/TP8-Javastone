@@ -139,7 +139,12 @@ public class GamePanel {
 		Creature crea;
 		
 		for (Engine e : c.getEffets(event)) {
-			for(IEngineTarget t : gettargets(player, e.getTarget())){
+			
+			List<IEngineTarget> cibles = gettargets(player, e.getTarget());
+			if(e.getTarget() == Target.SELF)
+				cibles.add((IEngineTarget) c);
+			
+			for(IEngineTarget t : cibles){
 				switch (e.getType()) {
 				case INVOKE:
 					crea = t.eng_invoke(e.getArgs()[0], c.fileName);
@@ -149,8 +154,22 @@ public class GamePanel {
 					break;
 					
 				case BUFF:
-					t.eng_buff(Integer.parseInt(e.getArgs()[0])
-							,Integer.parseInt(e.getArgs()[1]));
+					try{
+						nbr = Integer.parseInt(e.getArgs()[2]);
+						if(nbr == 0)
+							nbr = player.getCrea().size() -1;
+						else if(nbr == 1)
+							nbr = getAdversaire(player).getCrea().size() -1;
+					}catch (Exception e2) {
+						nbr = 1;
+					}
+					
+					for(int i = 0; i < nbr; i++){
+						t.eng_buff(Integer.parseInt(e.getArgs()[0])
+								,Integer.parseInt(e.getArgs()[1]));
+						if(e.getTarget() != Target.SELF)
+							interpret((Jouable) t, player, Declancheur.MODIF);
+					}
 					break;
 					
 				case DECK:
@@ -167,6 +186,8 @@ public class GamePanel {
 					break;
 				}
 			}
+			player.clearDead();
+			getAdversaire(player).clearDead();
 		}
 	}
 
@@ -185,10 +206,10 @@ public class GamePanel {
 				interpret(player.getMain().get(cartejouer), player, Declancheur.PLAY);
 				player.playCard(cj);
 			}catch(Exception e){
-				draw.getPrinter().println("Erreur : Impossible d'appliquer l'effet de la carte, elle n'est donc pas jouer");
+				draw.error("Erreur : Impossible d'appliquer l'effet de la carte, elle n'est donc pas jouer");
 			}
 		} else
-			draw.draw("Pas assez de mana");
+			draw.error("Pas assez de mana");
 	}
 
 	/**
@@ -211,13 +232,28 @@ public class GamePanel {
 			cible.takeDamage(attaquant.getDamage());
 			attaquant.takeDamage(cible.getDamage());
 			
+			try{
+				if(attaquant.getDamage() > 0)
+					interpret(cible, getAdversaire(player), Declancheur.MODIF);
+				if(cible.getDamage() > 0)
+					interpret(attaquant, player, Declancheur.MODIF);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 			if(attaquant.isDead())
 				player.clearDead();
 			else
 				attaquant.setFatigue(true);
 			
 			if(cible.isDead())
-				player.clearDead();
+				getAdversaire(player).clearDead();
+		}else{
+			if(attaquant.getFatigue())
+				draw.error("Impossible d'attaquer avec une creature fatiguée");
+			
+			if(!(getAdversaire(player).asGuardien() && !cible.isGuardian()))
+				draw.error("Impossible d'attaquer cette cible en présence d'un gardien");
 		}
 	}
 
@@ -265,24 +301,24 @@ public class GamePanel {
 	 * @param player
 	 */
 	private void initPlayer(Joueur player){
-		System.out.println("Initialisation de " + player.getName());
+		draw.draw("Initialisation de " + player.getName());
 		boolean ctn = true;
 		
 		do{
 			if (draw.menu("Deck", new String[]{"Depuis un fichier", "Creation manuelle"}) == 0) {
-				System.out.println("depuis un deck");
+				draw.draw("depuis un deck");
 				ctn = draw.loadDeck(player.getDeck());
 			}else{
-				System.out.println("manuelle");
+				draw.draw("manuelle");
 				draw.buildDeck(player.getDeck());
 			}
 		}while(!ctn);
-		System.out.println("ND " + player.getDeck().size());
+
 		player.getDeck().generateAleat();
 		for(int i = 0; i < 2; i++)
 			player.pioche();
 		
-		
+		player.getPlayerInstance().setFatigue(false);
 	}
 
 	/**
@@ -294,7 +330,7 @@ public class GamePanel {
 
 		do {
 			playerTurn(this.joueur1);
-			if (!this.joueur2.isDead() || !this.joueur1.isDead())
+			if (!this.joueur2.isDead() && !this.joueur1.isDead())
 				playerTurn(this.joueur2);
 		} while (!this.joueur1.isDead() && !this.joueur2.isDead());
 	}

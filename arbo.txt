@@ -42,7 +42,7 @@ Effects:
 				3	pour renvoyer une carte dans le deck
 				
 			DECLANCHEUR:
-				1	l'evenement se déclanche lors d'une modification d'etat de la creature cible
+				1	l'evenement se déclanche lorsque un degat est infliger
 				2	lors du jeu de la carte
 				
 			TARGET:
@@ -57,6 +57,7 @@ Effects:
 				8	Choisis parmis le joueur
 				9	Choisis parmis l'adversaire
 				10	Creature adverse avec le maximum de point d'attaque
+				11	creature lançant l'effet
 			
 			Arguments:
 				Invocation :
