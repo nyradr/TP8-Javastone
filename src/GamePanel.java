@@ -139,6 +139,7 @@ public class GamePanel {
 		Creature crea;
 		
 		for (Engine e : c.getEffets(event)) {
+			
 			List<IEngineTarget> cibles = gettargets(player, e.getTarget());
 			if(e.getTarget() == Target.SELF)
 				cibles.add((IEngineTarget) c);

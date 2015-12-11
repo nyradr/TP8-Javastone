@@ -178,7 +178,10 @@ public class Creature extends Jouable implements IEngineTarget{
 
 	@Override
 	public String eng_renv() throws Exception {
-		this.life = 0;
+		if(this.carteFileName == null)
+			throw new Exception();
+		else
+			this.life = 0;
 		return this.carteFileName;
 	}
 }

@@ -152,7 +152,7 @@ public class DrawingPanel {
 		String[] nomcarteDispo = FileManager.listFiles(FileManager.FOLD_CART);
 		List<Carte> cartesDispo = new ArrayList<Carte>();
 
-		printer.println("Nom du deck (Attention par pur fleme du developpeur si un deck porte déja ce nom il seras remplacer par ce nouveau deck)");
+		printer.println("Nom du deck (Attention par pure fleme du developpeur si un deck porte déja ce nom il seras remplacer par ce nouveau deck)");
 		String nomDeck = scan.nextLine();		
 		
 		for (int i = 0; i < nomcarteDispo.length; i++) {

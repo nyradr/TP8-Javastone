@@ -105,7 +105,7 @@ public class Engine {
 		if (ctn)
 			args.add(arg);
 
-		if (args.size() > 3) {
+		if (args.size() >= 3) {
 			String[] cmdargs = new String[args.size() - 2];
 
 			for (i = 3; i < args.size(); i++)
