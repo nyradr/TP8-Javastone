@@ -157,9 +157,9 @@ public class GamePanel {
 					try{
 						nbr = Integer.parseInt(e.getArgs()[2]);
 						if(nbr == 0)
-							nbr = player.getCrea().size();
+							nbr = player.getCrea().size() -1;
 						else if(nbr == 1)
-							nbr = getAdversaire(player).getCrea().size();
+							nbr = getAdversaire(player).getCrea().size() -1;
 					}catch (Exception e2) {
 						nbr = 1;
 					}
