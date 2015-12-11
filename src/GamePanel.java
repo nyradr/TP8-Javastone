@@ -233,7 +233,7 @@ public class GamePanel {
 			
 			try{
 				if(attaquant.getDamage() > 0)
-					interpret(cible, player, Declancheur.MODIF);
+					interpret(cible, getAdversaire(player), Declancheur.MODIF);
 				if(cible.getDamage() > 0)
 					interpret(attaquant, player, Declancheur.MODIF);
 			}catch(Exception e){
