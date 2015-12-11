@@ -243,7 +243,7 @@ public class GamePanel {
 				attaquant.setFatigue(true);
 			
 			if(cible.isDead())
-				player.clearDead();
+				getAdversaire(player).clearDead();
 		}
 	}
 
@@ -303,7 +303,7 @@ public class GamePanel {
 				draw.buildDeck(player.getDeck());
 			}
 		}while(!ctn);
-		System.out.println("ND " + player.getDeck().size());
+
 		player.getDeck().generateAleat();
 		for(int i = 0; i < 2; i++)
 			player.pioche();
